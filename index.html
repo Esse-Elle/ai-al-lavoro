@@ -114,6 +114,34 @@ main{padding-block:56px 24px}
 .note{font-size:.85rem;color:var(--ink-soft);margin:10px 0 0}
 .msg{font-size:.88rem;color:var(--accent);min-height:1.4em;margin:8px 0 0}
 
+
+/* videolezioni */
+.watch{margin-bottom:72px}
+.vstage{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:0;background:#161D33;color:#F4F2EE;border-radius:4px;overflow:hidden}
+.vscreen{position:relative;aspect-ratio:16/9;background:#0F1426}
+.vscreen video{width:100%;height:100%;display:block;background:#0F1426}
+.vinfo{padding:28px;display:flex;flex-direction:column;gap:10px}
+.vinfo .now{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:#CBC6BB;font-weight:700}
+.vinfo h3{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.1;color:#FFFFFF}
+.vinfo p{margin:0;color:#D9D4CA;font-size:.95rem}
+.vinfo .vmeta{margin-top:auto;padding-top:16px;border-top:1px solid rgba(203,198,187,.25);font-size:.85rem;color:#CBC6BB;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.vcards{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.vcard{width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:0;overflow:hidden;display:flex;flex-direction:column;height:100%}
+.vcard:not(:disabled):hover{border-color:var(--accent)}
+.vcard[aria-current="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.vthumb{position:relative;aspect-ratio:16/9;background:#161D33 center/cover no-repeat;display:flex;align-items:flex-end;justify-content:space-between;padding:10px}
+.vthumb .num{font-family:var(--f-display);font-weight:700;font-size:2rem;line-height:1;color:rgba(203,198,187,.55)}
+.vthumb .dur{font-size:.75rem;font-weight:700;background:rgba(22,29,51,.8);color:#F4F2EE;border-radius:999px;padding:3px 9px;font-variant-numeric:tabular-nums}
+.vthumb .pl{width:34px;height:34px;flex:none;border-radius:50%;background:rgba(203,198,187,.92);display:flex;align-items:center;justify-content:center}
+.vthumb .pl svg{width:16px;height:16px;fill:#161D33;margin-left:2px}
+.vcard .vtx{padding:12px 14px 14px}
+.vcard .vk{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+.vcard .vt{display:block;font-weight:700;font-size:.98rem;line-height:1.3;margin-top:4px}
+.vcard:disabled{cursor:default}
+.vcard:disabled .vt{color:var(--ink-soft)}
+.vcard:disabled .vthumb{background:repeating-linear-gradient(135deg,#1A2240 0 12px,#161D33 12px 24px)}
+.soon{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(203,198,187,.4);color:#CBC6BB;border-radius:999px;padding:3px 9px}
+@media (max-width:860px){.vstage{grid-template-columns:1fr}}
 footer{border-top:1px solid var(--line);margin-top:56px}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:26px;font-size:.85rem;color:var(--ink-soft)}
 
@@ -140,11 +168,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     </div>
     <div class="hero">
       <div>
-        <div class="eyebrow">Podcast · Ottobre 2026</div>
+        <div class="eyebrow">Podcast e videolezioni · Ottobre 2026</div>
         <h1>L'AI al lavoro</h1>
         <p class="lede">La formazione AI per il marketing, da ascoltare in macchina, in pausa o mentre sistemi la posta.</p>
         <div class="facts">
           <div><b>12</b>capitoli</div>
+          <div><b id="vidcount">2</b>videolezioni</div>
           <div><b>15</b>tracce</div>
           <div><b id="totdur">45 min</b>di ascolto</div>
           <div><b>112</b>slide</div>
@@ -154,6 +183,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
             <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z" fill="currentColor"/></svg>
             <span id="startLbl">Ascolta dall'inizio</span>
           </button>
+          <a class="btn btn-ghost" href="#videolezioni">Guarda le videolezioni</a>
           <a class="btn btn-ghost" href="#presentazione">Sfoglia la presentazione</a>
         </div>
       </div>
@@ -169,6 +199,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 </div>
 
 <main class="wrap">
+  <section class="watch" id="videolezioni" aria-labelledby="h-guarda">
+    <div class="sec-head">
+      <h2 id="h-guarda">Guarda le videolezioni</h2>
+      <p>Ogni capitolo raccontato in motion graphic, in pochi minuti. Le nuove lezioni compaiono qui man mano che sono pronte.</p>
+    </div>
+    <div class="vstage">
+      <div class="vscreen"><video id="lezVid" controls playsinline preload="metadata" aria-label="Videolezione"></video></div>
+      <div class="vinfo">
+        <div class="now" id="vNow">Capitolo 02</div>
+        <h3 id="vTitle"></h3>
+        <p id="vDesc"></p>
+        <div class="vmeta"><span id="vDur"></span><span id="vNext"></span></div>
+      </div>
+    </div>
+    <ol class="vcards" id="vcards"></ol>
+  </section>
   <section aria-labelledby="h-ascolta">
     <div class="sec-head">
       <h2 id="h-ascolta">Ascolta</h2>
@@ -411,6 +457,58 @@ document.querySelectorAll("[data-dl]").forEach(b=>{
   if(!has(FILES[k][0])){ b.hidden=true; return; }
   b.addEventListener("click",()=>saveFile(FILES[k][0],FILES[k][1]));
 });
+})();
+</script>
+<script>
+(function(){
+/* videolezioni: per aggiungere un capitolo basta mettere video/NN.mp4 e video/NN.jpg e indicare v:true */
+const LEZ=[
+ {n:"01",t:"Introduzione e panorama",d:"Perché l'AI nel marketing, come ragiona un'AI generativa e i cinque strumenti."},
+ {n:"02",t:"Il prompt",d:"Ruolo, contesto, compito e formato. Tre trucchi e una pipeline dalle tendenze ai post.",v:true,dur:158},
+ {n:"03",t:"Tre a confronto",d:"ChatGPT, Claude e Gemini: cosa hanno in comune e quando usare quale."},
+ {n:"04",t:"Dentro Claude",d:"Gli otto mattoni, dove si usa Claude e come lavora."},
+ {n:"05",t:"Lavorare bene",d:"Progetti, cartella collegata, istruzioni, artifact o file."},
+ {n:"06",t:"Skill e agenti",d:"Skill, agenti, connettori e attività pianificate."},
+ {n:"07",t:"Il setup ideale",d:"Dieci mosse per partire bene: istruzioni personali, memoria, privacy ed errori da evitare.",v:true,dur:122},
+ {n:"08",t:"Automazioni",d:"Le cinque mosse di ogni automazione e sei regole d'oro."},
+ {n:"09",t:"Fiducia",d:"Il metodo di verifica in quattro mosse."},
+ {n:"10",t:"Un ufficio eventi",d:"Una squadra digitale con progetto, skill, agenti e attività pianificate."},
+ {n:"11",t:"Leonardo AI",d:"Immagini e video: modelli, prompt, costi e pipeline."},
+ {n:"12",t:"Chiusura",d:"Cinque messaggi da portare a casa e il primo passo."}
+];
+const $=id=>document.getElementById(id);
+const fmt=s=>Math.floor(s/60)+":"+String(Math.round(s%60)).padStart(2,"0");
+const ready=LEZ.filter(l=>l.v); $("vidcount").textContent=ready.length;
+const vid=$("lezVid"), box=$("vcards"); let cur=-1;
+function nextReady(i){ for(let j=i+1;j<LEZ.length;j++) if(LEZ[j].v) return j; return -1; }
+function show(i,play){
+  const l=LEZ[i]; cur=i;
+  vid.poster="video/"+l.n+".jpg"; vid.src="video/"+l.n+".mp4";
+  $("vNow").textContent="Capitolo "+l.n+" · videolezione"; $("vTitle").textContent=l.t; $("vDesc").textContent=l.d;
+  $("vDur").textContent="Durata "+fmt(l.dur);
+  const nx=nextReady(i); $("vNext").textContent= nx>=0 ? "Poi: "+LEZ[nx].t : "Altre lezioni in arrivo";
+  box.querySelectorAll(".vcard").forEach(b=>b.setAttribute("aria-current",String(+b.dataset.i===i)));
+  if(play){ vid.play().catch(()=>{}); }
+}
+LEZ.forEach((l,i)=>{
+  const li=document.createElement("li"); const b=document.createElement("button"); b.type="button"; b.className="vcard"; b.dataset.i=i;
+  b.innerHTML='<span class="vthumb"><span class="num"></span><span class="tag"></span></span><span class="vtx"><span class="vk"></span><span class="vt"></span></span>';
+  b.querySelector(".num").textContent=l.n; b.querySelector(".vk").textContent="Capitolo "+l.n; b.querySelector(".vt").textContent=l.t;
+  const tag=b.querySelector(".tag");
+  if(l.v){ b.querySelector(".vthumb").style.backgroundImage='url("video/'+l.n+'.jpg")'; b.querySelector(".num").textContent="";
+    tag.className="dur"; tag.textContent=fmt(l.dur);
+    const pl=document.createElement("span"); pl.className="pl"; pl.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>'; b.querySelector(".vthumb").replaceChild(pl,b.querySelector(".num"));
+    b.setAttribute("aria-label","Guarda il capitolo "+l.n+": "+l.t);
+    b.addEventListener("click",()=>{ show(i,true); document.getElementById("videolezioni").scrollIntoView({behavior:"smooth",block:"start"}); });
+  } else { b.disabled=true; tag.className="soon"; tag.textContent="In arrivo"; }
+  li.appendChild(b); box.appendChild(li);
+});
+if(ready.length) show(LEZ.indexOf(ready[0]),false);
+vid.addEventListener("ended",()=>{ const nx=nextReady(cur); if(nx>=0) show(nx,true); });
+/* un solo suono alla volta */
+const au=$("audio"), hv=$("heroVid");
+vid.addEventListener("play",()=>{ if(au&&!au.paused) au.pause(); if(hv&&!hv.muted){ const s=$("vidSound"); if(s) s.click(); } });
+if(au) au.addEventListener("play",()=>{ if(!vid.paused) vid.pause(); });
 })();
 </script>
 </body></html>
