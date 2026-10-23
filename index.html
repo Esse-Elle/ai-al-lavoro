@@ -463,15 +463,15 @@ document.querySelectorAll("[data-dl]").forEach(b=>{
 </script>
 <script>
 (function(){
-/* videolezioni: per aggiungere un capitolo basta mettere video/NN.mp4 e video/NN.jpg e indicare v:true */
+/* videolezioni: per aggiungere un capitolo metti video/NN.mp4 e video/NN.jpg e indica p:[["NN",durata in secondi]] */
 const LEZ=[
- {n:"01",t:"Introduzione e panorama",d:"Perché l'AI nel marketing, come ragiona un'AI generativa e i cinque strumenti.",v:true,dur:305},
- {n:"02",t:"Il prompt",d:"Ruolo, contesto, compito e formato. Tre trucchi e una pipeline dalle tendenze ai post.",v:true,dur:158},
- {n:"03",t:"Tre a confronto",d:"ChatGPT, Claude e Gemini: cosa hanno in comune e quando usare quale.",v:true,dur:95},
- {n:"04",f:"04a",t:"Dentro Claude",d:"Gli otto mattoni, dove si usa Claude, desktop o browser, la conversazione unica e l'area di lavoro.",part:"Prima parte · la seconda è in arrivo",v:true,dur:222},
- {n:"05",t:"Lavorare bene",d:"Progetti, cartella collegata, istruzioni, artifact o file."},
+ {n:"01",t:"Introduzione e panorama",d:"Perché l'AI nel marketing, come ragiona un'AI generativa e i cinque strumenti.",p:[["01",305]]},
+ {n:"02",t:"Il prompt",d:"Ruolo, contesto, compito e formato. Tre trucchi e una pipeline dalle tendenze ai post.",p:[["02",158]]},
+ {n:"03",t:"Tre a confronto",d:"ChatGPT, Claude e Gemini: cosa hanno in comune e quando usare quale.",p:[["03",95]]},
+ {n:"04",t:"Dentro Claude",d:"Gli otto mattoni, dove si usa Claude, l'area di lavoro, come lavora, i permessi, modelli e token.",p:[["04a",222],["04b",197]]},
+ {n:"05",t:"Lavorare bene",d:"Progetti, cartella collegata, istruzioni, artifact o file, la regola d'oro e Claude Design.",p:[["05",299]]},
  {n:"06",t:"Skill e agenti",d:"Skill, agenti, connettori e attività pianificate."},
- {n:"07",t:"Il setup ideale",d:"Dieci mosse per partire bene: istruzioni personali, memoria, privacy ed errori da evitare.",v:true,dur:122},
+ {n:"07",t:"Il setup ideale",d:"Dieci mosse per partire bene: istruzioni personali, memoria, privacy ed errori da evitare.",p:[["07",122]]},
  {n:"08",t:"Automazioni",d:"Le cinque mosse di ogni automazione e sei regole d'oro."},
  {n:"09",t:"Fiducia",d:"Il metodo di verifica in quattro mosse."},
  {n:"10",t:"Un ufficio eventi",d:"Una squadra digitale con progetto, skill, agenti e attività pianificate."},
@@ -479,34 +479,41 @@ const LEZ=[
  {n:"12",t:"Chiusura",d:"Cinque messaggi da portare a casa e il primo passo."}
 ];
 const $=id=>document.getElementById(id);
-const fmt=s=>Math.floor(s/60)+":"+String(Math.round(s%60)).padStart(2,"0");
-const ready=LEZ.filter(l=>l.v); $("vidcount").textContent=ready.length;
-const vid=$("lezVid"), box=$("vcards"); let cur=-1;
-function nextReady(i){ for(let j=i+1;j<LEZ.length;j++) if(LEZ[j].v) return j; return -1; }
-function show(i,play){
-  const l=LEZ[i]; cur=i;
-  const f=l.f||l.n; vid.poster="video/"+f+".jpg"; vid.src="video/"+f+".mp4";
-  $("vNow").textContent="Capitolo "+l.n+" · videolezione"; $("vTitle").textContent=l.t; $("vDesc").textContent=l.d;
-  $("vDur").textContent="Durata "+fmt(l.dur)+(l.part?" · "+l.part:"");
-  const nx=nextReady(i); $("vNext").textContent= nx>=0 ? "Poi: "+LEZ[nx].t : "Altre lezioni in arrivo";
+const fmt=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
+const tot=l=>l.p.reduce((a,x)=>a+x[1],0);
+const ready=LEZ.filter(l=>l.p); $("vidcount").textContent=ready.length;
+const vid=$("lezVid"), box=$("vcards"); let cur=-1, part=0;
+function nextReady(i){ for(let j=i+1;j<LEZ.length;j++) if(LEZ[j].p) return j; return -1; }
+function show(i,pi,play){
+  const l=LEZ[i]; cur=i; part=pi; const f=l.p[pi][0];
+  vid.poster="video/"+f+".jpg"; vid.src="video/"+f+".mp4";
+  const multi=l.p.length>1;
+  $("vNow").textContent="Capitolo "+l.n+" · videolezione"+(multi?" · parte "+(pi+1)+" di "+l.p.length:"");
+  $("vTitle").textContent=l.t+(multi&&pi>0?", seconda parte":""); $("vDesc").textContent=l.d;
+  $("vDur").textContent="Durata "+fmt(l.p[pi][1]);
+  let nx;
+  if(pi+1<l.p.length) nx="Poi: seconda parte";
+  else { const j=nextReady(i); nx= j>=0 ? "Poi: "+LEZ[j].t : "Altre lezioni in arrivo"; }
+  $("vNext").textContent=nx;
   box.querySelectorAll(".vcard").forEach(b=>b.setAttribute("aria-current",String(+b.dataset.i===i)));
   if(play){ vid.play().catch(()=>{}); }
 }
 LEZ.forEach((l,i)=>{
   const li=document.createElement("li"); const b=document.createElement("button"); b.type="button"; b.className="vcard"; b.dataset.i=i;
   b.innerHTML='<span class="vthumb"><span class="num"></span><span class="tag"></span></span><span class="vtx"><span class="vk"></span><span class="vt"></span></span>';
-  b.querySelector(".num").textContent=l.n; b.querySelector(".vk").textContent="Capitolo "+l.n; b.querySelector(".vt").textContent=l.t; if(l.part){ const ps=document.createElement("span"); ps.className="vp"; ps.textContent="Parte 1 di 2"; b.querySelector(".vtx").appendChild(ps); }
+  b.querySelector(".num").textContent=l.n; b.querySelector(".vk").textContent="Capitolo "+l.n; b.querySelector(".vt").textContent=l.t;
   const tag=b.querySelector(".tag");
-  if(l.v){ b.querySelector(".vthumb").style.backgroundImage='url("video/'+(l.f||l.n)+'.jpg")'; b.querySelector(".num").textContent="";
-    tag.className="dur"; tag.textContent=fmt(l.dur);
+  if(l.p){ b.querySelector(".vthumb").style.backgroundImage='url("video/'+l.p[0][0]+'.jpg")';
+    tag.className="dur"; tag.textContent=fmt(tot(l));
+    if(l.p.length>1){ const ps=document.createElement("span"); ps.className="vp"; ps.textContent=l.p.length+" parti, una dopo l'altra"; b.querySelector(".vtx").appendChild(ps); }
     const pl=document.createElement("span"); pl.className="pl"; pl.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>'; b.querySelector(".vthumb").replaceChild(pl,b.querySelector(".num"));
     b.setAttribute("aria-label","Guarda il capitolo "+l.n+": "+l.t);
-    b.addEventListener("click",()=>{ show(i,true); document.getElementById("videolezioni").scrollIntoView({behavior:"smooth",block:"start"}); });
+    b.addEventListener("click",()=>{ show(i,0,true); document.getElementById("videolezioni").scrollIntoView({behavior:"smooth",block:"start"}); });
   } else { b.disabled=true; tag.className="soon"; tag.textContent="In arrivo"; }
   li.appendChild(b); box.appendChild(li);
 });
-if(ready.length) show(LEZ.indexOf(ready[0]),false);
-vid.addEventListener("ended",()=>{ const nx=nextReady(cur); if(nx>=0) show(nx,true); });
+if(ready.length) show(LEZ.indexOf(ready[0]),0,false);
+vid.addEventListener("ended",()=>{ const l=LEZ[cur]; if(part+1<l.p.length) show(cur,part+1,true); else { const nx=nextReady(cur); if(nx>=0) show(nx,0,true); } });
 /* un solo suono alla volta */
 const au=$("audio"), hv=$("heroVid");
 vid.addEventListener("play",()=>{ if(au&&!au.paused) au.pause(); if(hv&&!hv.muted){ const s=$("vidSound"); if(s) s.click(); } });
