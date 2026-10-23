@@ -137,11 +137,13 @@ main{padding-block:56px 24px}
 .vcard .vtx{padding:12px 14px 14px}
 .vcard .vk{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
 .vcard .vt{display:block;font-weight:700;font-size:.98rem;line-height:1.3;margin-top:4px}
+.vcard .vp{display:block;font-size:.8rem;color:var(--ink-soft);margin-top:2px}
 .vcard:disabled{cursor:default}
 .vcard:disabled .vt{color:var(--ink-soft)}
 .vcard:disabled .vthumb{background:repeating-linear-gradient(135deg,#1A2240 0 12px,#161D33 12px 24px)}
 .soon{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(203,198,187,.4);color:#CBC6BB;border-radius:999px;padding:3px 9px}
 @media (max-width:860px){.vstage{grid-template-columns:1fr}}
+@media (min-width:1000px){.vcards{grid-template-columns:repeat(6,minmax(0,1fr))}}
 footer{border-top:1px solid var(--line);margin-top:56px}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:26px;font-size:.85rem;color:var(--ink-soft)}
 
@@ -463,10 +465,10 @@ document.querySelectorAll("[data-dl]").forEach(b=>{
 (function(){
 /* videolezioni: per aggiungere un capitolo basta mettere video/NN.mp4 e video/NN.jpg e indicare v:true */
 const LEZ=[
- {n:"01",t:"Introduzione e panorama",d:"Perché l'AI nel marketing, come ragiona un'AI generativa e i cinque strumenti."},
+ {n:"01",t:"Introduzione e panorama",d:"Perché l'AI nel marketing, come ragiona un'AI generativa e i cinque strumenti.",v:true,dur:305},
  {n:"02",t:"Il prompt",d:"Ruolo, contesto, compito e formato. Tre trucchi e una pipeline dalle tendenze ai post.",v:true,dur:158},
- {n:"03",t:"Tre a confronto",d:"ChatGPT, Claude e Gemini: cosa hanno in comune e quando usare quale."},
- {n:"04",t:"Dentro Claude",d:"Gli otto mattoni, dove si usa Claude e come lavora."},
+ {n:"03",t:"Tre a confronto",d:"ChatGPT, Claude e Gemini: cosa hanno in comune e quando usare quale.",v:true,dur:95},
+ {n:"04",f:"04a",t:"Dentro Claude",d:"Gli otto mattoni, dove si usa Claude, desktop o browser, la conversazione unica e l'area di lavoro.",part:"Prima parte · la seconda è in arrivo",v:true,dur:222},
  {n:"05",t:"Lavorare bene",d:"Progetti, cartella collegata, istruzioni, artifact o file."},
  {n:"06",t:"Skill e agenti",d:"Skill, agenti, connettori e attività pianificate."},
  {n:"07",t:"Il setup ideale",d:"Dieci mosse per partire bene: istruzioni personali, memoria, privacy ed errori da evitare.",v:true,dur:122},
@@ -483,9 +485,9 @@ const vid=$("lezVid"), box=$("vcards"); let cur=-1;
 function nextReady(i){ for(let j=i+1;j<LEZ.length;j++) if(LEZ[j].v) return j; return -1; }
 function show(i,play){
   const l=LEZ[i]; cur=i;
-  vid.poster="video/"+l.n+".jpg"; vid.src="video/"+l.n+".mp4";
+  const f=l.f||l.n; vid.poster="video/"+f+".jpg"; vid.src="video/"+f+".mp4";
   $("vNow").textContent="Capitolo "+l.n+" · videolezione"; $("vTitle").textContent=l.t; $("vDesc").textContent=l.d;
-  $("vDur").textContent="Durata "+fmt(l.dur);
+  $("vDur").textContent="Durata "+fmt(l.dur)+(l.part?" · "+l.part:"");
   const nx=nextReady(i); $("vNext").textContent= nx>=0 ? "Poi: "+LEZ[nx].t : "Altre lezioni in arrivo";
   box.querySelectorAll(".vcard").forEach(b=>b.setAttribute("aria-current",String(+b.dataset.i===i)));
   if(play){ vid.play().catch(()=>{}); }
@@ -493,9 +495,9 @@ function show(i,play){
 LEZ.forEach((l,i)=>{
   const li=document.createElement("li"); const b=document.createElement("button"); b.type="button"; b.className="vcard"; b.dataset.i=i;
   b.innerHTML='<span class="vthumb"><span class="num"></span><span class="tag"></span></span><span class="vtx"><span class="vk"></span><span class="vt"></span></span>';
-  b.querySelector(".num").textContent=l.n; b.querySelector(".vk").textContent="Capitolo "+l.n; b.querySelector(".vt").textContent=l.t;
+  b.querySelector(".num").textContent=l.n; b.querySelector(".vk").textContent="Capitolo "+l.n; b.querySelector(".vt").textContent=l.t; if(l.part){ const ps=document.createElement("span"); ps.className="vp"; ps.textContent="Parte 1 di 2"; b.querySelector(".vtx").appendChild(ps); }
   const tag=b.querySelector(".tag");
-  if(l.v){ b.querySelector(".vthumb").style.backgroundImage='url("video/'+l.n+'.jpg")'; b.querySelector(".num").textContent="";
+  if(l.v){ b.querySelector(".vthumb").style.backgroundImage='url("video/'+(l.f||l.n)+'.jpg")'; b.querySelector(".num").textContent="";
     tag.className="dur"; tag.textContent=fmt(l.dur);
     const pl=document.createElement("span"); pl.className="pl"; pl.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>'; b.querySelector(".vthumb").replaceChild(pl,b.querySelector(".num"));
     b.setAttribute("aria-label","Guarda il capitolo "+l.n+": "+l.t);
