@@ -94,7 +94,7 @@ main{padding-block:56px 24px}
 .trk .t{font-weight:700;font-size:1.02rem;line-height:1.3}
 .trk .d{color:var(--ink-soft);font-size:.9rem;margin-top:3px;line-height:1.45}
 .trk .r{font-size:.85rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap;padding-top:3px}
-.trk[aria-current="true"] .t::after{content:" · in ascolto";font-weight:400;color:var(--accent);font-size:.85rem}
+.trk[aria-current="true"] .t::after{content:" · now playing";font-weight:400;color:var(--accent);font-size:.85rem}
 .row-tools{display:flex;gap:14px;padding:0 18px 14px 4.8rem;font-size:.82rem;color:var(--ink-soft);margin-top:-6px}
 .row-tools button{background:none;border:none;padding:0;color:inherit;text-decoration:underline;text-underline-offset:3px}
 
@@ -144,6 +144,9 @@ main{padding-block:56px 24px}
 .vcard .vtx{padding:12px 14px 14px}
 .vcard .vk{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
 .vcard .vt{display:block;font-weight:700;font-size:.98rem;line-height:1.3;margin-top:4px}
+.itag{display:inline-block;margin:6px 0 0 0;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 8px}
+.trk .t .itag{margin-left:8px;vertical-align:middle}
+.vcard .itag{display:table}
 .vcard .vp{display:block;font-size:.8rem;color:var(--ink-soft);margin-top:2px}
 .vcard:disabled{cursor:default}
 .vcard:disabled .vt{color:var(--ink-soft)}
@@ -183,7 +186,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
         <div class="facts">
           <div><b>12</b>chapters</div>
           <div><b id="vidcount">2</b>video lessons</div>
-          <div><b>7</b>tracks</div>
+          <div><b>15</b>tracks</div>
           <div><b id="totdur">45 min</b>of listening</div>
           <div><b>112</b>slides</div>
         </div>
@@ -211,7 +214,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   <section class="watch" id="videolezioni" aria-labelledby="h-guarda">
     <div class="sec-head">
       <h2 id="h-guarda">Watch the video lessons</h2>
-      <p>Twelve chapters told in motion graphics, a few minutes each. Watch them in order or pick the one you need. The English versions are arriving one at a time.</p>
+      <p>Twelve chapters told in motion graphics, a few minutes each. Watch them in order or pick the one you need. Lessons marked “Italian audio” switch to English on 10 November.</p>
     </div>
     <div class="vstage">
       <div class="vscreen"><video id="lezVid" controls playsinline preload="metadata" aria-label="Video lesson"></video></div>
@@ -227,7 +230,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   <section aria-labelledby="h-ascolta">
     <div class="sec-head">
       <h2 id="h-ascolta">Listen</h2>
-      <p>Tracks play in sequence: when one part ends, the next one starts. Pick up where you left off. For now, only the chapters already translated are listed.</p>
+      <p>Tracks play in sequence: when one part ends, the next one starts. Pick up where you left off. Tracks marked “Italian audio” switch to English on 10 November.</p>
     </div>
     <div class="listen">
       <div class="player" aria-label="Player">
@@ -304,15 +307,23 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 (function(){
 const MODE = "site"; // artifact | site | single
 const TRACKS = [
- {n:"02",t:"The prompt",d:"Role, context, task and format. Three tricks and a pipeline from trends to posts.",s:16},
- {n:"03",t:"Three side by side",d:"ChatGPT, Claude and Gemini: what they have in common and when to use which.",s:21},
- {n:"04a",t:"Inside Claude",d:"The eight building blocks, where to use Claude, desktop or browser, the single conversation and the workspace.",s:26},
- {n:"07",t:"The ideal setup",d:"Ten moves, personal instructions, memory, privacy and mistakes to avoid.",s:70},
- {n:"09",t:"Trust",d:"The four-step verification method.",s:86},
- {n:"11b",t:"Leonardo AI, part two",d:"Costs, the pipeline from idea to video and what to watch out for.",s:109},
- {n:"12",t:"Closing",d:"Five takeaways and the first step to take by tomorrow.",s:88}
+ {n:"01",t:"Introduction and overview",d:"Why AI in marketing, how a generative AI thinks and the five tools: ChatGPT, Claude, Gemini, Perplexity and Leonardo. English audio online on 10 November.",s:1,a:"audio/01.mp3",it:true},
+ {n:"02",t:"The prompt",d:"Role, context, task and format. Three tricks and a pipeline from trends to posts.",s:16,a:"audio_en/02.mp3",it:false},
+ {n:"03",t:"Three side by side",d:"ChatGPT, Claude and Gemini: what they have in common and when to use which.",s:21,a:"audio_en/03.mp3",it:false},
+ {n:"04a",t:"Inside Claude",d:"The eight building blocks, where to use Claude, desktop or browser, the single conversation and the workspace.",s:26,a:"audio_en/04a.mp3",it:false},
+ {n:"04b",t:"Inside Claude, part two",d:"How Claude works, permissions, models and tokens, seven habits to use less. English audio online on 10 November.",s:34,a:"audio/04b.mp3",it:true},
+ {n:"05",t:"Working well",d:"Projects, connected folder, instructions, artifact or file, the golden rule and Claude Design. English audio online on 10 November.",s:42,a:"audio/05.mp3",it:true},
+ {n:"06a",t:"Skills and agents",d:"What skills are, the marketplace, custom skills and agents. English audio online on 10 November.",s:53,a:"audio/06a.mp3",it:true},
+ {n:"06b",t:"Skills and agents, part two",d:"Connectors, scheduled tasks, Claude Code, security and the product launch pipeline. English audio online on 10 November.",s:62,a:"audio/06b.mp3",it:true},
+ {n:"07",t:"The ideal setup",d:"Ten moves, personal instructions, memory, privacy and mistakes to avoid.",s:70,a:"audio_en/07.mp3",it:false},
+ {n:"08",t:"Automations",d:"The five moves of every automation, the invoice example, other cases and six golden rules. English audio online on 10 November.",s:75,a:"audio/08.mp3",it:true},
+ {n:"09",t:"Trust",d:"The four-step verification method.",s:86,a:"audio_en/09.mp3",it:false},
+ {n:"10",t:"An events office",d:"A digital team built with a project, skills, agents and scheduled tasks. English audio online on 10 November.",s:90,a:"audio/10.mp3",it:true},
+ {n:"11a",t:"Leonardo AI",d:"Tools, image and video models, how to choose and how to write the prompt. English audio online on 10 November.",s:101,a:"audio/11a.mp3",it:true},
+ {n:"11b",t:"Leonardo AI, part two",d:"Costs, the pipeline from idea to video and what to watch out for.",s:109,a:"audio_en/11b.mp3",it:false},
+ {n:"12",t:"Closing",d:"Five takeaways and the first step to take by tomorrow.",s:88,a:"audio_en/12.mp3",it:false}
 ];
-const DUR = [151, 90, 196, 117, 35, 82, 73];
+const DUR = [302, 151, 90, 196, 194, 296, 213, 214, 117, 290, 35, 234, 216, 82, 73];
 const SLIDES = 112;
 const CHAPTERS = [["Overview", 6], ["Prompt", 16], ["Comparison", 21], ["Inside Claude", 26], ["Working well", 42], ["Skills and agents", 53], ["Setup", 70], ["Automations", 75], ["Trust", 86], ["Events office", 90], ["Leonardo AI", 101]];
 const FILES = {pptx:["files/L-AI-al-lavoro_presentazione.pptx","L'AI al lavoro - presentazione.pptx"], pdf:["files/L-AI-al-lavoro_presentazione.pdf","L'AI al lavoro - presentazione.pdf"]};
@@ -343,13 +354,13 @@ TRACKS.forEach((tr,i)=>{
   const li = document.createElement("li");
   const b = document.createElement("button"); b.type="button"; b.className="trk"; b.dataset.i=i;
   b.innerHTML = '<span class="n"></span><span><span class="t"></span><span class="d" style="display:block"></span></span><span class="r"></span>';
-  b.querySelector(".n").textContent = tr.n; b.querySelector(".t").textContent = tr.t; b.querySelector(".d").textContent = tr.d; b.querySelector(".r").textContent = fmt(DUR[i]);
+  b.querySelector(".n").textContent = tr.n; b.querySelector(".t").textContent = tr.t; if(tr.it){ const it=document.createElement("span"); it.className="itag"; it.textContent="IT audio"; b.querySelector(".t").appendChild(it); } b.querySelector(".d").textContent = tr.d; b.querySelector(".r").textContent = fmt(DUR[i]);
   b.addEventListener("click",()=>{ if(i===cur && !audio.paused){audio.pause();} else {load(i,0,true);} });
   li.appendChild(b);
   if(MODE!=="artifact"){
     const tools = document.createElement("div"); tools.className="row-tools";
     const d = document.createElement("button"); d.type="button"; d.textContent="Download MP3";
-    d.addEventListener("click",()=>saveFile("audio_en/"+tr.n+".mp3","AI at Work "+tr.n+" "+tr.t+".mp3"));
+    d.addEventListener("click",()=>saveFile(tr.a,"AI at Work "+tr.n+" "+tr.t+(tr.it?" (IT audio)":"")+".mp3"));
     tools.appendChild(d); li.appendChild(tools);
   }
   list.appendChild(li);
@@ -365,7 +376,7 @@ function paint(){
   list.querySelectorAll(".trk").forEach(b=>{const on=+b.dataset.i===cur; b.setAttribute("aria-current", String(on)); b.parentNode.classList.toggle("on",on);});
 }
 function load(i,t,play){
-  cur = i; audio.src = src("audio_en/"+TRACKS[i].n+".mp3"); audio.playbackRate = SPEEDS[speedIdx];
+  cur = i; audio.src = src(TRACKS[i].a); audio.playbackRate = SPEEDS[speedIdx];
   paint();
   const go = ()=>{ if(t) { try{audio.currentTime=t}catch(e){} } if(play) audio.play().catch(()=>{}); };
   if(audio.readyState>=1) go(); else audio.addEventListener("loadedmetadata",go,{once:true});
@@ -464,7 +475,7 @@ document.querySelectorAll("[data-dl]").forEach(b=>{
 <script>
 (function(){
 /* videolezioni: per aggiungere un capitolo metti video/NN.mp4 e video/NN.jpg e indica p:[["NN",durata in secondi]] */
-const LEZ=[{"n": "01", "t": "Introduction and overview", "d": "Why AI in marketing, how a generative AI thinks and the five tools."}, {"n": "02", "t": "The prompt", "d": "Role, context, task and format. Three tricks and a pipeline from trends to posts.", "p": [["02", 154]]}, {"n": "03", "t": "Three side by side", "d": "ChatGPT, Claude and Gemini: what they have in common and when to use which.", "p": [["03", 93]]}, {"n": "04", "t": "Inside Claude", "d": "The eight building blocks, where to use Claude, the workspace, how it works, permissions, models and tokens. Part 1 of 2: part 2 coming soon.", "p": [["04a", 199]]}, {"n": "05", "t": "Working well", "d": "Projects, connected folder, instructions, artifact or file, the golden rule and Claude Design."}, {"n": "06", "t": "Skills and agents", "d": "What skills are, the marketplace and agents. Then connectors, scheduled tasks, Claude Code and security."}, {"n": "07", "t": "The ideal setup", "d": "Ten moves to start well: personal instructions, memory, privacy and mistakes to avoid.", "p": [["07", 120]]}, {"n": "08", "t": "Automations", "d": "The five moves of every automation, the invoice example, other cases and six golden rules."}, {"n": "09", "t": "Trust", "d": "The four-step verification method.", "p": [["09", 38]]}, {"n": "10", "t": "An events office", "d": "A digital team built with a project, skills, agents and scheduled tasks."}, {"n": "11", "t": "Leonardo AI", "d": "Tools, image and video models, how to write the prompt. Then costs, the pipeline from idea to video and what to watch out for. Part 2 of 2: part 1 coming soon.", "p": [["11b", 85]]}, {"n": "12", "t": "Closing", "d": "Five takeaways and the first step to take by tomorrow.", "p": [["12", 76]]}];
+const LEZ=[{"n": "01", "t": "Introduction and overview", "d": "Why AI in marketing, how a generative AI thinks and the five tools. English audio online on 10 November.", "p": [["it:01", 305]], "it": true}, {"n": "02", "t": "The prompt", "d": "Role, context, task and format. Three tricks and a pipeline from trends to posts.", "p": [["02", 154]]}, {"n": "03", "t": "Three side by side", "d": "ChatGPT, Claude and Gemini: what they have in common and when to use which.", "p": [["03", 93]]}, {"n": "04", "t": "Inside Claude", "d": "The eight building blocks, where to use Claude, the workspace, how it works, permissions, models and tokens. One part still in Italian: English audio online on 10 November.", "p": [["04a", 199], ["it:04b", 197]], "it": true}, {"n": "05", "t": "Working well", "d": "Projects, connected folder, instructions, artifact or file, the golden rule and Claude Design. English audio online on 10 November.", "p": [["it:05", 299]], "it": true}, {"n": "06", "t": "Skills and agents", "d": "What skills are, the marketplace and agents. Then connectors, scheduled tasks, Claude Code and security. English audio online on 10 November.", "p": [["it:06a", 216], ["it:06b", 217]], "it": true}, {"n": "07", "t": "The ideal setup", "d": "Ten moves to start well: personal instructions, memory, privacy and mistakes to avoid.", "p": [["07", 120]]}, {"n": "08", "t": "Automations", "d": "The five moves of every automation, the invoice example, other cases and six golden rules. English audio online on 10 November.", "p": [["it:08", 293]], "it": true}, {"n": "09", "t": "Trust", "d": "The four-step verification method.", "p": [["09", 38]]}, {"n": "10", "t": "An events office", "d": "A digital team built with a project, skills, agents and scheduled tasks. English audio online on 10 November.", "p": [["it:10", 237]], "it": true}, {"n": "11", "t": "Leonardo AI", "d": "Tools, image and video models, how to write the prompt. Then costs, the pipeline from idea to video and what to watch out for. One part still in Italian: English audio online on 10 November.", "p": [["it:11a", 219], ["11b", 85]], "it": true}, {"n": "12", "t": "Closing", "d": "Five takeaways and the first step to take by tomorrow.", "p": [["12", 76]]}];
 const $=id=>document.getElementById(id);
 const fmt=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
 const tot=l=>l.p.reduce((a,x)=>a+x[1],0);
@@ -473,7 +484,7 @@ const vid=$("lezVid"), box=$("vcards"); let cur=-1, part=0;
 function nextReady(i){ for(let j=i+1;j<LEZ.length;j++) if(LEZ[j].p) return j; return -1; }
 function show(i,pi,play){
   const l=LEZ[i]; cur=i; part=pi; const f=l.p[pi][0];
-  vid.poster="video_en/"+f+".jpg"; vid.src="video_en/"+f+".mp4";
+  const VP=x=>x.startsWith("it:")?"video/"+x.slice(3):"video_en/"+x; vid.poster=VP(f)+".jpg"; vid.src=VP(f)+".mp4";
   const multi=l.p.length>1;
   $("vNow").textContent="Chapter "+l.n+" · video lesson"+(multi?" · part "+(pi+1)+" of "+l.p.length:"");
   $("vTitle").textContent=l.t+(multi&&pi>0?", part two":""); $("vDesc").textContent=l.d;
@@ -488,9 +499,9 @@ function show(i,pi,play){
 LEZ.forEach((l,i)=>{
   const li=document.createElement("li"); const b=document.createElement("button"); b.type="button"; b.className="vcard"; b.dataset.i=i;
   b.innerHTML='<span class="vthumb"><span class="num"></span><span class="tag"></span></span><span class="vtx"><span class="vk"></span><span class="vt"></span></span>';
-  b.querySelector(".num").textContent=l.n; b.querySelector(".vk").textContent="Chapter "+l.n; b.querySelector(".vt").textContent=l.t;
+  b.querySelector(".num").textContent=l.n; b.querySelector(".vk").textContent="Chapter "+l.n; b.querySelector(".vt").textContent=l.t; if(l.it){ const it=document.createElement("span"); it.className="itag"; it.textContent="IT audio · EN "+"10 Nov"; b.querySelector(".vtx").appendChild(it); }
   const tag=b.querySelector(".tag");
-  if(l.p){ b.querySelector(".vthumb").style.backgroundImage='url("video_en/'+l.p[0][0]+'.jpg")';
+  if(l.p){ b.querySelector(".vthumb").style.backgroundImage='url("'+(l.p[0][0].startsWith("it:")?"video/"+l.p[0][0].slice(3):"video_en/"+l.p[0][0])+'.jpg")';
     tag.className="dur"; tag.textContent=fmt(tot(l));
     if(l.p.length>1){ const ps=document.createElement("span"); ps.className="vp"; ps.textContent=l.p.length+" parts, back to back"; b.querySelector(".vtx").appendChild(ps); }
     const pl=document.createElement("span"); pl.className="pl"; pl.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>'; b.querySelector(".vthumb").replaceChild(pl,b.querySelector(".num"));

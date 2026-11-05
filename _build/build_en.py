@@ -40,6 +40,11 @@ LEZ_EN=[("01","Introduction and overview","Why AI in marketing, how a generative
  ("12","Closing","Five takeaways and the first step to take by tomorrow.")]
 CHAP_EN=[["Overview",6],["Prompt",16],["Comparison",21],["Inside Claude",26],["Working well",42],["Skills and agents",53],["Setup",70],["Automations",75],["Trust",86],["Events office",90],["Leonardo AI",101]]
 ALL_DONE = len(EN_AUDIO)==len(TR_ALL)
+EN_DATE = "10 November"
+EN_DATE_SHORT = "10 Nov"
+IT_DUR = dict(zip([t[0] for t in TR_ALL],[302,155,92,219,194,296,213,214,119,290,34,234,216,88,75]))
+IT_VID = {"01":[["01",305]],"02":[["02",158]],"03":[["03",95]],"04":[["04a",222],["04b",197]],"05":[["05",299]],"06":[["06a",216],["06b",217]],"07":[["07",122]],"08":[["08",293]],"09":[["09",37]],"10":[["10",237]],"11":[["11a",219],["11b",91]],"12":[["12",78]]}
+NOTE_IT = "English audio online on "+EN_DATE+"."
 
 def R(a,b,count=1):
     global s
@@ -49,25 +54,34 @@ def RX(pat,repl):
     s2,n=re.subn(pat,repl,s,flags=re.S); assert n==1,(pat[:60],n); s=s2
 
 # ---------- blocchi dati ----------
-tr=[t for t in TR_ALL if t[0] in EN_AUDIO]
-js_tr="const TRACKS = [\n"+",\n".join(" {n:%s,t:%s,d:%s,s:%d}"%(json.dumps(a),json.dumps(b),json.dumps(c),d) for a,b,c,d in tr)+"\n];"
+tr=TR_ALL
+def _trk(a,b,c,d):
+    en=a in EN_AUDIO
+    return " {n:%s,t:%s,d:%s,s:%d,a:%s,it:%s}"%(json.dumps(a),json.dumps(b),json.dumps(c if en else c+" "+NOTE_IT),d,json.dumps(("audio_en/" if en else "audio/")+a+".mp3"),"false" if en else "true")
+js_tr="const TRACKS = [\n"+",\n".join(_trk(*t) for t in tr)+"\n];"
 RX(r"const TRACKS = \[.*?\n\];",js_tr.replace("\\","\\\\"))
-RX(r"const DUR = \[[^\]]*\];","const DUR = "+json.dumps([EN_AUDIO[t[0]] for t in tr])+";")
+RX(r"const DUR = \[[^\]]*\];","const DUR = "+json.dumps([EN_AUDIO.get(t[0],IT_DUR[t[0]]) for t in tr])+";")
 RX(r"const CHAPTERS = \[.*?\]\];","const CHAPTERS = "+json.dumps(CHAP_EN,ensure_ascii=False)+";")
 lez=[]
 for n,t,d in LEZ_EN:
     o={"n":n,"t":t,"d":d}
-    if n in EN_VIDEO:
-        o["p"]=EN_VIDEO[n]
-        if n in PARTIAL: o["d"]=d+PARTIAL[n]
+    parts=[]; itp=False
+    en={x[0]:x for x in EN_VIDEO.get(n,[])}
+    for f,du in IT_VID[n]:
+        if f in en: parts.append(en[f])
+        else: parts.append(["it:"+f,du]); itp=True
+    o["p"]=parts
+    if itp:
+        o["d"]=d+(" "+NOTE_IT if len(parts)==1 or all(x[0].startswith("it:") for x in parts) else " One part still in Italian: English audio online on "+EN_DATE+".")
+        o["it"]=True
     lez.append(o)
 RX(r"const LEZ=\[.*?\n\];","const LEZ="+json.dumps(lez,ensure_ascii=False).replace("\\","\\\\")+";")
 
 # ---------- percorsi ----------
-R('audio.src = src("audio/"+TRACKS[i].n+".mp3")','audio.src = src("audio_en/"+TRACKS[i].n+".mp3")')
-R('saveFile("audio/"+tr.n+".mp3","L\'AI al lavoro "+tr.n+" "+tr.t+".mp3")','saveFile("audio_en/"+tr.n+".mp3","AI at Work "+tr.n+" "+tr.t+".mp3")')
-R('vid.poster="video/"+f+".jpg"; vid.src="video/"+f+".mp4";','vid.poster="video_en/"+f+".jpg"; vid.src="video_en/"+f+".mp4";')
-R("""style.backgroundImage='url("video/'+l.p[0][0]+'.jpg")'""","""style.backgroundImage='url("video_en/'+l.p[0][0]+'.jpg")'""")
+R('audio.src = src("audio/"+TRACKS[i].n+".mp3")','audio.src = src(TRACKS[i].a)')
+R('saveFile("audio/"+tr.n+".mp3","L\'AI al lavoro "+tr.n+" "+tr.t+".mp3")','saveFile(tr.a,"AI at Work "+tr.n+" "+tr.t+(tr.it?" (IT audio)":"")+".mp3")')
+R('vid.poster="video/"+f+".jpg"; vid.src="video/"+f+".mp4";','const VP=x=>x.startsWith("it:")?"video/"+x.slice(3):"video_en/"+x; vid.poster=VP(f)+".jpg"; vid.src=VP(f)+".mp4";')
+R("""style.backgroundImage='url("video/'+l.p[0][0]+'.jpg")'""","""style.backgroundImage='url("'+(l.p[0][0].startsWith("it:")?"video/"+l.p[0][0].slice(3):"video_en/"+l.p[0][0])+'.jpg")'""")
 R('const pad = n => String(n).padStart(3,"0");','const pad = n => String(n).padStart(3,"0"); const SLEN='+json.dumps(EN_SLIDES)+'; const SP = n => (SLEN.includes(n)?"slides_en/":"slides/")+pad(n)+".jpg";')
 R('img.src = src("slides/"+pad(slide)+".jpg");','img.src = src(SP(slide));')
 R('pre.src=src("slides/"+pad(slide+1)+".jpg");','pre.src=src(SP(slide+1));')
@@ -88,11 +102,11 @@ T=[('<html lang="it">','<html lang="en">'),("<title>L'AI al lavoro · Podcast</t
  ('<span id="vidSoundLbl">Attiva l\'audio</span>','<span id="vidSoundLbl">Sound on</span>'),
  ('<h2 id="h-guarda">Guarda le videolezioni</h2>','<h2 id="h-guarda">Watch the video lessons</h2>'),
  ("Dodici capitoli raccontati in motion graphic, pochi minuti ciascuno. Guardali in fila dal primo o scegli quello che ti serve.",
-  "Twelve chapters told in motion graphics, a few minutes each. Watch them in order or pick the one you need."+("" if ALL_DONE else " The English versions are arriving one at a time.")),
+  "Twelve chapters told in motion graphics, a few minutes each. Watch them in order or pick the one you need."+("" if ALL_DONE else " Lessons marked “Italian audio” switch to English on "+EN_DATE+".")),
  ('aria-label="Videolezione"','aria-label="Video lesson"'),('<div class="now" id="vNow">Capitolo 02</div>','<div class="now" id="vNow">Chapter 02</div>'),
  ('<h2 id="h-ascolta">Ascolta</h2>','<h2 id="h-ascolta">Listen</h2>'),
  ("Le tracce vanno in sequenza: alla fine di una parte subito la successiva. Riprendi da dove avevi lasciato.",
-  "Tracks play in sequence: when one part ends, the next one starts. Pick up where you left off."+("" if ALL_DONE else " For now, only the chapters already translated are listed.")),
+  "Tracks play in sequence: when one part ends, the next one starts. Pick up where you left off."+("" if ALL_DONE else " Tracks marked “Italian audio” switch to English on "+EN_DATE+".")),
  ('aria-label="Lettore"','aria-label="Player"'),('<div class="now" id="pNow">Traccia 1 di 15</div>','<div class="now" id="pNow">Track 1</div>'),
  ('>Posizione</label>','>Position</label>'),('aria-label="Traccia precedente"','aria-label="Previous track"'),('aria-label="Indietro di 15 secondi"','aria-label="Back 15 seconds"'),
  ('aria-label="Riproduci"','aria-label="Play"'),('aria-label="Avanti di 30 secondi"','aria-label="Forward 30 seconds"'),('aria-label="Traccia successiva"','aria-label="Next track"'),
@@ -129,6 +143,12 @@ if not ALL_DONE:
     R('<div class="dl" id="dlRow">','<p class="note">The downloadable PowerPoint, PDF and audio are still the Italian versions.</p>\n    <div class="dl" id="dlRow">')
     R("Download the PowerPoint","Download the PowerPoint (IT)"); R("Download the PDF","Download the PDF (IT)"); R("Download all audio","Download all audio (IT)")
     R('"files/L-AI-al-lavoro_audio.zip","L\'AI al lavoro - audio.zip"','"files/L-AI-al-lavoro_audio.zip","L\'AI al lavoro - audio IT.zip"')
+
+# badge "Italian audio"
+if "in ascolto" in s: s=s.replace("in ascolto","now playing")
+R('b.querySelector(".vt").textContent=l.t;','b.querySelector(".vt").textContent=l.t; if(l.it){ const it=document.createElement("span"); it.className="itag"; it.textContent="IT audio · EN "+'+json.dumps(EN_DATE_SHORT)+'; b.querySelector(".vtx").appendChild(it); }')
+R('b.querySelector(".t").textContent = tr.t;','b.querySelector(".t").textContent = tr.t; if(tr.it){ const it=document.createElement("span"); it.className="itag"; it.textContent="IT audio"; b.querySelector(".t").appendChild(it); }')
+R('.vcard .vp{','.itag{display:inline-block;margin:6px 0 0 0;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 8px}\n.trk .t .itag{margin-left:8px;vertical-align:middle}\n.vcard .itag{display:table}\n.vcard .vp{')
 # selettore lingua: EN attivo
 s=s.replace('<a href="index.html" class="lg" aria-current="true" lang="it">IT</a><a href="en.html" class="lg" lang="en">EN</a>',
             '<a href="index.html" class="lg" lang="it">IT</a><a href="en.html" class="lg" aria-current="true" lang="en">EN</a>')
