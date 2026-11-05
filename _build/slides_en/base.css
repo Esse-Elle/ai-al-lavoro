@@ -1,0 +1,6 @@
+@font-face{font-family:Butler;src:url(Butler_Regular.otf);font-weight:400}
+@font-face{font-family:Butler;src:url(Butler_Bold.otf);font-weight:700}
+@font-face{font-family:Karla;src:url(Karla-Regular.ttf);font-weight:400}
+@font-face{font-family:Karla;src:url(Karla-Medium.ttf);font-weight:500}
+@font-face{font-family:Karla;src:url(Karla-SemiBold.ttf);font-weight:600}
+*{margin:0;box-sizing:border-box}
