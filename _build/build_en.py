@@ -22,8 +22,9 @@ TR_ALL=[
  ("11a","Leonardo AI","Tools, image and video models, how to choose and how to write the prompt.",101),
  ("11b","Leonardo AI, part two","Costs, the pipeline from idea to video and what to watch out for.",109),
  ("12","Closing","Five takeaways and the first step to take by tomorrow.",88)]
-EN_AUDIO={"02":151}            # tracce inglesi pronte: durata in secondi
-EN_VIDEO={"02":[["02",154]]}   # videolezioni inglesi pronte
+EN_AUDIO={"02":151,"03":90,"04a":196,"07":117,"09":35,"11b":82,"12":73}            # tracce inglesi pronte: durata in secondi
+EN_VIDEO={"02":[["02",154]],"03":[["03",93]],"04":[["04a",199]],"07":[["07",120]],"09":[["09",38]],"11":[["11b",85]],"12":[["12",76]]}
+PARTIAL={"04":" Part 1 of 2: part 2 coming soon.","11":" Part 2 of 2: part 1 coming soon."}   # videolezioni inglesi pronte
 EN_SLIDES=list(range(16,21))   # slide gia' tradotte (slides_en/NNN.jpg)
 LEZ_EN=[("01","Introduction and overview","Why AI in marketing, how a generative AI thinks and the five tools."),
  ("02","The prompt","Role, context, task and format. Three tricks and a pipeline from trends to posts."),
@@ -56,7 +57,9 @@ RX(r"const CHAPTERS = \[.*?\]\];","const CHAPTERS = "+json.dumps(CHAP_EN,ensure_
 lez=[]
 for n,t,d in LEZ_EN:
     o={"n":n,"t":t,"d":d}
-    if n in EN_VIDEO: o["p"]=EN_VIDEO[n]
+    if n in EN_VIDEO:
+        o["p"]=EN_VIDEO[n]
+        if n in PARTIAL: o["d"]=d+PARTIAL[n]
     lez.append(o)
 RX(r"const LEZ=\[.*?\n\];","const LEZ="+json.dumps(lez,ensure_ascii=False).replace("\\","\\\\")+";")
 

@@ -183,7 +183,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
         <div class="facts">
           <div><b>12</b>chapters</div>
           <div><b id="vidcount">2</b>video lessons</div>
-          <div><b>1</b>track</div>
+          <div><b>7</b>tracks</div>
           <div><b id="totdur">45 min</b>of listening</div>
           <div><b>112</b>slides</div>
         </div>
@@ -304,9 +304,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 (function(){
 const MODE = "site"; // artifact | site | single
 const TRACKS = [
- {n:"02",t:"The prompt",d:"Role, context, task and format. Three tricks and a pipeline from trends to posts.",s:16}
+ {n:"02",t:"The prompt",d:"Role, context, task and format. Three tricks and a pipeline from trends to posts.",s:16},
+ {n:"03",t:"Three side by side",d:"ChatGPT, Claude and Gemini: what they have in common and when to use which.",s:21},
+ {n:"04a",t:"Inside Claude",d:"The eight building blocks, where to use Claude, desktop or browser, the single conversation and the workspace.",s:26},
+ {n:"07",t:"The ideal setup",d:"Ten moves, personal instructions, memory, privacy and mistakes to avoid.",s:70},
+ {n:"09",t:"Trust",d:"The four-step verification method.",s:86},
+ {n:"11b",t:"Leonardo AI, part two",d:"Costs, the pipeline from idea to video and what to watch out for.",s:109},
+ {n:"12",t:"Closing",d:"Five takeaways and the first step to take by tomorrow.",s:88}
 ];
-const DUR = [151];
+const DUR = [151, 90, 196, 117, 35, 82, 73];
 const SLIDES = 112;
 const CHAPTERS = [["Overview", 6], ["Prompt", 16], ["Comparison", 21], ["Inside Claude", 26], ["Working well", 42], ["Skills and agents", 53], ["Setup", 70], ["Automations", 75], ["Trust", 86], ["Events office", 90], ["Leonardo AI", 101]];
 const FILES = {pptx:["files/L-AI-al-lavoro_presentazione.pptx","L'AI al lavoro - presentazione.pptx"], pdf:["files/L-AI-al-lavoro_presentazione.pdf","L'AI al lavoro - presentazione.pdf"]};
@@ -458,7 +464,7 @@ document.querySelectorAll("[data-dl]").forEach(b=>{
 <script>
 (function(){
 /* videolezioni: per aggiungere un capitolo metti video/NN.mp4 e video/NN.jpg e indica p:[["NN",durata in secondi]] */
-const LEZ=[{"n": "01", "t": "Introduction and overview", "d": "Why AI in marketing, how a generative AI thinks and the five tools."}, {"n": "02", "t": "The prompt", "d": "Role, context, task and format. Three tricks and a pipeline from trends to posts.", "p": [["02", 154]]}, {"n": "03", "t": "Three side by side", "d": "ChatGPT, Claude and Gemini: what they have in common and when to use which."}, {"n": "04", "t": "Inside Claude", "d": "The eight building blocks, where to use Claude, the workspace, how it works, permissions, models and tokens."}, {"n": "05", "t": "Working well", "d": "Projects, connected folder, instructions, artifact or file, the golden rule and Claude Design."}, {"n": "06", "t": "Skills and agents", "d": "What skills are, the marketplace and agents. Then connectors, scheduled tasks, Claude Code and security."}, {"n": "07", "t": "The ideal setup", "d": "Ten moves to start well: personal instructions, memory, privacy and mistakes to avoid."}, {"n": "08", "t": "Automations", "d": "The five moves of every automation, the invoice example, other cases and six golden rules."}, {"n": "09", "t": "Trust", "d": "The four-step verification method."}, {"n": "10", "t": "An events office", "d": "A digital team built with a project, skills, agents and scheduled tasks."}, {"n": "11", "t": "Leonardo AI", "d": "Tools, image and video models, how to write the prompt. Then costs, the pipeline from idea to video and what to watch out for."}, {"n": "12", "t": "Closing", "d": "Five takeaways and the first step to take by tomorrow."}];
+const LEZ=[{"n": "01", "t": "Introduction and overview", "d": "Why AI in marketing, how a generative AI thinks and the five tools."}, {"n": "02", "t": "The prompt", "d": "Role, context, task and format. Three tricks and a pipeline from trends to posts.", "p": [["02", 154]]}, {"n": "03", "t": "Three side by side", "d": "ChatGPT, Claude and Gemini: what they have in common and when to use which.", "p": [["03", 93]]}, {"n": "04", "t": "Inside Claude", "d": "The eight building blocks, where to use Claude, the workspace, how it works, permissions, models and tokens. Part 1 of 2: part 2 coming soon.", "p": [["04a", 199]]}, {"n": "05", "t": "Working well", "d": "Projects, connected folder, instructions, artifact or file, the golden rule and Claude Design."}, {"n": "06", "t": "Skills and agents", "d": "What skills are, the marketplace and agents. Then connectors, scheduled tasks, Claude Code and security."}, {"n": "07", "t": "The ideal setup", "d": "Ten moves to start well: personal instructions, memory, privacy and mistakes to avoid.", "p": [["07", 120]]}, {"n": "08", "t": "Automations", "d": "The five moves of every automation, the invoice example, other cases and six golden rules."}, {"n": "09", "t": "Trust", "d": "The four-step verification method.", "p": [["09", 38]]}, {"n": "10", "t": "An events office", "d": "A digital team built with a project, skills, agents and scheduled tasks."}, {"n": "11", "t": "Leonardo AI", "d": "Tools, image and video models, how to write the prompt. Then costs, the pipeline from idea to video and what to watch out for. Part 2 of 2: part 1 coming soon.", "p": [["11b", 85]]}, {"n": "12", "t": "Closing", "d": "Five takeaways and the first step to take by tomorrow.", "p": [["12", 76]]}];
 const $=id=>document.getElementById(id);
 const fmt=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
 const tot=l=>l.p.reduce((a,x)=>a+x[1],0);
