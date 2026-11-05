@@ -1,0 +1,29 @@
+Hi and welcome. I'm Stefano, and this is the audio version of our training course "AI at Work", designed for people who work in marketing. It's a long episode, so get comfortable: you can listen to it all in one go or one chapter at a time, maybe in the car or while you're sorting out your inbox.
+
+Let's start with the why. In marketing, time goes in two ways: creating content and handling repetitive tasks. Artificial intelligence can help us on both fronts, without betraying the brand and without becoming yet another job to manage.
+
+By the end of this episode you'll have three things in hand. First: you'll know which AI to use for what. Second: you'll know Claude, the tool we've chosen as a group, and you'll know how to set it up properly from day one. Third: you'll have a method to automate repetitive work on your own.
+
+The course has eleven chapters. The tool landscape. The prompt. ChatGPT, Claude and Gemini compared. Then we go inside Claude: how it's built, how to work well with it, skills and agents, the ideal setup. Then automations, trust, an events office built with Claude and, to close, a deep dive into Leonardo AI for images and video.
+
+And before we begin, one sentence I'd like you to keep in mind until the end: AI doesn't replace people. It empowers the people who use it.
+
+Chapter one: the landscape. Let's start with a fact: the world of AI moves fast. Only a few months have passed since our first training session in March, and in the meantime almost everything has changed. Claude has gone from the Opus 4.6 model to Opus 5.5 and Sonnet 5.5. ChatGPT has moved to the GPT-6 family. Gemini works with the series 3 models, and Google has already announced Gemini 4. Claude Design was born, and today it lives inside Claude. And in the Claude app, chat and Cowork no longer exist as two separate things: there's one single conversation.
+
+I'm not telling you this to fill your head with names, but to reach an important conclusion: learn the method, not the buttons. The buttons change every month. The method stays.
+
+And the method starts with understanding how an AI thinks. A generative AI doesn't think and doesn't know: it completes text in the most likely way, based on everything it has read. This has three practical consequences. Where information is missing, it fills the gaps with generic answers, sometimes made up. The more context you give it, the more the result is yours and not everyone's. And it always needs to be reread: it's a brilliant collaborator, not an oracle. Picture it as a very talented person on their first day at work: capable, fast, but who knows neither the company nor the customers.
+
+With that said, let's look at the tools. Today we mainly use five, and each one has its own job.
+
+ChatGPT, by OpenAI, is the generalist. It's the most widespread assistant, fast and versatile, and it generates images right in the chat. In marketing it's great for brainstorming claims, first drafts, quick variants and a concept image on the fly. With one warning: facts and figures always need checking.
+
+Claude, by Anthropic, is the collaborator that reasons. It writes with care, handles long documents and, above all, can work inside our files, our folders and our tools. It's what we use for copy, press releases and product sheets in the brand's tone, to create documents, slides and graphics, and to automate repetitive work. We'll go into it in depth.
+
+Gemini, by Google, is the assistant that lives in Gmail, Drive and Docs. Many of us already have it in our account without knowing it. It's handy for summarising a very long email thread, for finding a file in Drive, and, with NotebookLM, for querying a brand book or a catalogue. It also generates images and video. Just one caution: company data doesn't go on a personal Gmail account.
+
+Perplexity is the researcher. It's an answer engine: it searches the web and always answers with its sources, which you can open with one click. It also has a deep research feature and its own browser. It's perfect for industry trends, competitor monitoring, market data and preparing for trade fairs and events. Its value is just one thing, but it's huge: you can check everything.
+
+Leonardo AI is the visual studio: a platform that brings together many different models to generate images and video. We use it for moodboards, setting concepts, social visuals and video teasers. The last chapter is all about it.
+
+Let's put it into practice. If you need to find trends, data and competitor moves, use Perplexity, because it cites its sources. If you need to write copy, press releases and product sheets, Claude. If the work is inside Gmail or Drive, Gemini. For a quick brainstorm or an image on the fly, ChatGPT. For moodboards and settings, Leonardo. And to automate a repetitive job, Claude again.

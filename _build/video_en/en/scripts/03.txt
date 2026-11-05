@@ -1,0 +1,7 @@
+Chapter three: ChatGPT, Claude and Gemini compared. The first thing to know is that today they're more alike than they seem. All three have a chat with web search and file uploads. All three have projects or spaces with instructions and documents. All three have a memory of your conversations, connect to external apps like mail, calendar and drive, and have agents that carry out multi-step tasks. And the individual plan costs more or less the same, around twenty dollars a month.
+
+The difference lies in their character and in how they work with you. ChatGPT is versatile and fast, and it generates images in the chat. Claude is thoughtful and precise, long texts are its strong point, it doesn't make photographs but it creates graphics and layouts, and it works on folders, connectors and the browser. Gemini is integrated with Google: it works on Gmail, Drive and Docs, and it generates images and video with Google's models.
+
+So, when do I use what? ChatGPT when you need speed, an image on the fly or an app from its ecosystem. Gemini when the work is inside Gmail, Drive or Docs. Claude when the text has to be polished and in the brand's tone, when you're working on long documents, or when you want the AI to act on folders and tools.
+
+And if in doubt? Try the same request on two tools and compare. This isn't a battle between fan clubs. Anyone who can use one tool well learns the others in an hour. Because, once again, the method matters more than the tool.

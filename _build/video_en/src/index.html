@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Capitolo 07 · Il setup ideale</title>
+<style>
+@font-face{font-family:"Butler";src:url("assets/Butler_Regular.otf");font-weight:400}
+@font-face{font-family:"Butler";src:url("assets/Butler_Bold.otf");font-weight:700}
+@font-face{font-family:"Karla";src:url("assets/Karla-Regular.ttf");font-weight:400}
+@font-face{font-family:"Karla";src:url("assets/Karla-Medium.ttf");font-weight:500}
+@font-face{font-family:"Karla";src:url("assets/Karla-Bold.ttf");font-weight:700}
+:root{--app-bg:#FAF9F5;--app-side:#F3F1EA;--app-line:#E6E2D8;--app-ink:#2B2A27;--app-soft:#73726C;--app-acc:#D97757;--app-acc2:#C96442;--navy:#161d33;--navy2:#1f2742;--greige:#cbc6bb;--taupe:#75655c;--paper:#f3f1ed;--white:#fbfaf7;--ink:#161d33;--soft:#5f636d;--line:#e2ddd4}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--navy)}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:"Karla",sans-serif;color:var(--white)}
+.layer{position:absolute;inset:0}
+.serif{font-family:"Butler",serif}
+.kicker{font-weight:700;font-size:22px;letter-spacing:.22em;text-transform:uppercase;color:var(--greige)}
+#glow{position:absolute;width:1500px;height:1500px;left:220px;top:-220px;border-radius:50%;background:radial-gradient(circle,rgba(60,70,110,.55) 0%,rgba(22,29,51,0) 65%)}
+.ring{position:absolute;width:1224px;height:1224px;left:348px}
+.ring svg{width:100%;height:100%;display:block}
+#ringTop{top:-684px}#ringBot{top:540px}
+
+/* chrome */
+#chromeTop{position:absolute;left:140px;right:140px;top:64px;display:flex;justify-content:space-between;font-weight:700;font-size:20px;letter-spacing:.22em;text-transform:uppercase;color:var(--greige)}
+#progress{position:absolute;left:140px;right:140px;bottom:64px;height:3px}
+#progressTrack{position:absolute;inset:0;background:rgba(203,198,187,.25)}
+#progressFill{position:absolute;left:0;top:0;height:100%;width:100%;background:var(--greige);transform-origin:left center}
+
+/* S1 */
+#s1Wrap{position:absolute;left:140px;top:330px;width:900px}
+#s1Title{font-weight:700;font-size:150px;line-height:1;margin-top:26px}
+#s1Sub{font-size:56px;color:var(--greige);margin-top:34px}
+.line{display:block;overflow:hidden;padding-bottom:16px}
+.line>span{display:inline-block}
+
+/* S2 dieci mosse */
+#s2Left{position:absolute;left:140px;top:210px;width:600px}
+#counter{height:300px;overflow:hidden;margin-top:6px}
+#counterRoll div{height:300px;font-family:"Butler",serif;font-weight:700;font-size:290px;line-height:300px;color:var(--greige)}
+#moveHead{position:relative;height:250px;margin-top:10px}
+.mh{position:absolute;left:0;top:0;width:600px}
+.mh h3{font-family:"Butler",serif;font-weight:700;font-size:62px;line-height:1.06;color:var(--white)}
+.mh p{font-size:30px;color:var(--greige);margin-top:18px;line-height:1.3}
+#dots{position:absolute;left:140px;top:880px;display:flex;gap:14px}
+.d{width:44px;height:6px;border-radius:3px;background:rgba(203,198,187,.25);overflow:hidden}
+.d i{display:block;height:100%;width:100%;background:var(--greige);transform-origin:left center;transform:scaleX(0)}
+
+/* finestra stile app (rifatta sugli screenshot dell'app desktop) */
+.win{position:absolute;left:780px;top:180px;width:1000px;height:680px;border-radius:18px;overflow:hidden;background:var(--app-bg);display:flex;box-shadow:0 40px 90px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.06);color:var(--app-ink);font-family:"Karla",sans-serif}
+.side{width:240px;height:100%;background:var(--app-side);border-right:1px solid var(--app-line);padding:18px 14px;display:flex;flex-direction:column;gap:4px}
+.lights{display:flex;gap:8px;padding:2px 6px 16px}
+.lights i{width:13px;height:13px;border-radius:50%;display:block}
+.tabs{display:flex;background:#ECE9E0;border-radius:10px;padding:3px;margin-bottom:14px}
+.tabs span{flex:1;text-align:center;font-size:16px;padding:7px 0;border-radius:8px;color:var(--app-soft)}
+.tabs span.on{background:#fff;color:var(--app-ink);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.newc{display:flex;align-items:center;gap:10px;font-size:17px;white-space:nowrap;padding:8px 8px 14px}
+.newc b{width:26px;height:26px;border-radius:50%;background:#E3DFD5;display:flex;align-items:center;justify-content:center;font-weight:400;font-size:20px;line-height:1}
+.slabel{font-size:15px;color:var(--app-soft);padding:6px 10px 4px}
+.si{font-size:18px;padding:9px 10px;border-radius:9px;color:var(--app-ink);display:flex;align-items:center;gap:12px}
+.si b{width:18px;height:18px;border-radius:5px;border:1.6px solid #9C9A92;flex:none}
+.si.on{background:#E8E4DA;font-weight:700}
+.si.on b{border-color:var(--app-acc2);background:rgba(217,119,87,.15)}
+.user{margin-top:auto;display:flex;align-items:center;gap:12px;padding:12px 6px 2px;border-top:1px solid var(--app-line)}
+.user .av{width:38px;height:38px;border-radius:50%;background:#2B2A27;color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.user span{font-size:16px;line-height:1.2}
+.user small{display:block;font-size:14px;color:var(--app-soft)}
+.main{position:relative;flex:1;height:100%;background:var(--app-bg)}
+.pane{position:absolute;inset:0;padding:40px 44px}
+.ptitle{font-family:"Butler",serif;font-weight:400;font-size:38px;color:var(--app-ink)}
+.plabel{font-weight:500;font-size:16px;letter-spacing:.02em;color:var(--app-soft)}
+.field{border:1px solid var(--app-line);border-radius:14px;padding:18px 20px;font-size:23px;color:var(--app-ink);background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.field.focus{border-color:#C9C4B8;box-shadow:0 0 0 3px rgba(217,119,87,.12)}
+.btnx{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:10px;padding:14px 26px;font-weight:700;font-size:21px;background:var(--app-acc);color:#fff}
+.chipx{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--app-line);border-radius:9px;padding:8px 14px;font-size:18px;color:var(--app-ink);white-space:nowrap}
+.chipx.sel{background:#2B2A27;border-color:#2B2A27;color:#fff}
+.row{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border:1px solid var(--app-line);border-radius:12px;font-size:21px;background:#fff}
+.tog{width:52px;height:30px;border-radius:15px;background:#D6D2C8;position:relative;flex:none}
+.tog i{position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tog.on{background:var(--app-acc2)}
+.tog.on i{left:25px}
+.cursor{position:absolute;width:30px;height:30px;z-index:5;pointer-events:none}
+.fileic{width:28px;height:34px;border-radius:4px;background:#fff;border:1.6px solid #9C9A92;position:relative;flex:none}
+.fileic::after{content:"";position:absolute;left:6px;right:6px;top:10px;height:2px;background:#B8B4AA;box-shadow:0 6px 0 #B8B4AA,0 12px 0 #B8B4AA}
+.foldic{width:34px;height:26px;border-radius:4px;border:1.6px solid #9C9A92;background:#fff;position:relative;flex:none}
+.foldic::before{content:"";position:absolute;left:-1.6px;top:-7px;width:14px;height:7px;border-radius:3px 3px 0 0;border:1.6px solid #9C9A92;border-bottom:none;background:#fff}
+/* S3 istruzioni */
+#s3Left{position:absolute;left:140px;top:250px;width:560px}
+#s3Title{font-weight:700;font-size:84px;line-height:1.04;margin-top:20px}
+#s3Note{font-size:30px;color:var(--greige);margin-top:30px;line-height:1.35}
+#s3Win .pane{padding:40px 46px}
+#typed{font-size:27px;line-height:1.5;color:var(--ink);min-height:340px}
+#typed .c{display:none}
+#caret{display:inline-block;width:3px;height:30px;background:var(--app-acc);vertical-align:-5px;margin-left:2px}
+#layers{position:absolute;left:800px;top:250px;width:980px;height:600px}
+.lay{position:absolute;left:0;right:0;border-radius:22px;padding:34px 40px;display:flex;align-items:center;gap:28px}
+.lay .n{font-family:"Butler",serif;font-weight:700;font-size:64px;width:70px}
+.lay h4{font-family:"Butler",serif;font-weight:700;font-size:44px}
+.lay p{font-size:26px;margin-top:6px}
+#lay1{top:300px;background:var(--paper);color:var(--ink)}
+#lay1 .n{color:var(--taupe)}
+#lay2{top:80px;background:var(--taupe);color:var(--white);box-shadow:0 30px 60px rgba(0,0,0,.3)}
+
+/* S4 memoria e privacy */
+#s4Left{position:absolute;left:140px;top:250px;width:560px}
+#s4Title{font-weight:700;font-size:84px;line-height:1.04;margin-top:20px}
+#memCard{position:absolute;left:800px;top:200px;width:980px;height:420px;background:var(--app-bg);border-radius:22px;color:var(--ink);padding:40px 46px;box-shadow:0 40px 90px rgba(0,0,0,.35)}
+.mem{display:flex;align-items:center;gap:18px;font-size:26px;padding:16px 0;border-bottom:2px solid var(--line)}
+.mem b{width:12px;height:12px;border-radius:50%;background:var(--taupe);flex:none}
+#memActs{display:flex;gap:14px;margin-top:26px}
+#projRow{position:absolute;left:800px;top:670px;width:980px;display:flex;gap:22px}
+.proj{flex:1;background:var(--navy2);border:2px solid rgba(203,198,187,.35);border-radius:18px;padding:22px 24px}
+.proj h5{font-family:"Butler",serif;font-weight:700;font-size:30px;color:var(--white)}
+.proj p{font-size:21px;color:var(--greige);margin-top:6px;display:flex;align-items:center;gap:10px}
+#privRow{position:absolute;left:800px;top:250px;width:980px;display:flex;gap:28px}
+.priv{flex:1;border-radius:22px;padding:40px 40px;height:330px;display:flex;flex-direction:column;gap:18px}
+.priv h5{font-family:"Butler",serif;font-weight:700;font-size:44px}
+.priv p{font-size:26px;line-height:1.35}
+.badge{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+#privOk{background:#fff;color:var(--ink)}
+#privOk .badge{background:var(--navy)}
+#privNo{background:transparent;border:2px solid rgba(203,198,187,.4);color:var(--greige)}
+#privNo .badge{background:rgba(203,198,187,.18)}
+#privNote{position:absolute;left:800px;top:640px;width:980px;font-family:"Butler",serif;font-size:42px;line-height:1.25;color:var(--white)}
+#privNote b{font-weight:700}
+
+/* S5 errori (carta) */
+#s5{background:var(--paper);color:var(--ink)}
+#s5Left{position:absolute;left:140px;top:200px;width:520px}
+#s5Left .kicker{color:var(--taupe)}
+#s5Title{font-weight:700;font-size:96px;line-height:1.02;margin-top:20px;color:var(--ink)}
+#s5Sub{font-size:30px;color:var(--soft);margin-top:30px;line-height:1.35}
+#errs{position:absolute;left:760px;right:140px;top:170px;display:flex;flex-direction:column;gap:16px}
+.err{display:flex;align-items:center;gap:24px;background:#fff;border-radius:18px;padding:20px 26px;box-shadow:0 14px 30px rgba(22,29,51,.06)}
+.err .x{width:46px;height:46px;border-radius:50%;background:var(--taupe);display:flex;align-items:center;justify-content:center;flex:none}
+.err .tx{position:relative;font-size:31px;color:var(--ink)}
+.err .st{position:absolute;left:0;right:0;top:54%;height:3px;background:var(--taupe);transform-origin:left center;transform:scaleX(0)}
+.err .n{margin-left:auto;font-weight:700;font-size:20px;letter-spacing:.1em;color:var(--greige)}
+
+/* S6 chiusura */
+#s6Wrap{position:absolute;left:140px;top:380px}
+#s6Title{font-weight:700;font-size:120px;line-height:1;margin-top:24px}
+#s6Next{font-size:32px;color:var(--greige);margin-top:34px}
+#logo{position:absolute;left:140px;bottom:120px;width:300px}
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="layer" id="bg"><div id="glow"></div></div>
+  <div class="layer" id="rings">
+    <div class="ring" id="ringTop"><svg viewBox="0 0 1224 1224"><defs><linearGradient id="gBT" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7c6a60"/><stop offset=".28" stop-color="#b8aa9d"/><stop offset=".5" stop-color="#1c2232"/><stop offset=".74" stop-color="#5c4d48"/><stop offset="1" stop-color="#8f7d71"/></linearGradient><linearGradient id="gCT" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b7a6f"/><stop offset=".6" stop-color="#bdb1a4"/><stop offset="1" stop-color="#d9d1c5"/></linearGradient></defs><path class="band" fill="url(#gBT)" fill-rule="evenodd"/><path class="cres" fill="url(#gCT)" fill-rule="evenodd"/></svg></div>
+    <div class="ring" id="ringBot"><svg viewBox="0 0 1224 1224"><defs><linearGradient id="gBB" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7c6a60"/><stop offset=".28" stop-color="#b8aa9d"/><stop offset=".5" stop-color="#1c2232"/><stop offset=".74" stop-color="#5c4d48"/><stop offset="1" stop-color="#8f7d71"/></linearGradient><linearGradient id="gCB" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b7a6f"/><stop offset=".6" stop-color="#bdb1a4"/><stop offset="1" stop-color="#d9d1c5"/></linearGradient></defs><path class="band" fill="url(#gBB)" fill-rule="evenodd"/><path class="cres" fill="url(#gCB)" fill-rule="evenodd"/></svg></div>
+  </div>
+
+  <!-- S1 titolo -->
+  <section class="layer" id="s1">
+    <div id="s1Wrap">
+      <p class="kicker" id="s1K">L'AI al lavoro · Capitolo 07</p>
+      <h1 class="serif" id="s1Title"><span class="line"><span id="s1a">Il setup</span></span><span class="line"><span id="s1b">ideale.</span></span></h1>
+      <p class="serif" id="s1Sub">Dieci mosse per partire bene.</p>
+    </div>
+  </section>
+
+  <!-- S2 dieci mosse -->
+  <section class="layer" id="s2">
+    <div id="s2Left">
+      <p class="kicker">Il setup ideale · Dieci mosse</p>
+      <div id="counter"><div id="counterRoll"></div></div>
+      <div id="moveHead"></div>
+    </div>
+    <div id="dots"></div>
+    <div class="win" id="appWin">
+      <div class="side">
+        <div class="lights"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i></div>
+        <div class="tabs"><span class="on">Claude</span><span>Code</span></div>
+        <div class="newc"><b>+</b>Nuova conversazione</div>
+        <div class="si" data-k="rec"><b></b>Recenti</div>
+        <div class="si" data-k="prj"><b></b>Progetti</div>
+        <div class="si" data-k="art"><b></b>Artifact</div>
+        <div class="si" data-k="pia"><b></b>Pianificate</div>
+        <div class="si" data-k="cus"><b></b>Customize</div>
+        <div class="si" data-k="imp"><b></b>Impostazioni</div>
+        <div class="user"><span class="av">MK</span><span>Marketing<small>Piano Team</small></span></div>
+      </div>
+      <div class="main" id="panes">
+        <!-- 1 login -->
+        <div class="pane" data-m="1" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center">
+          <div class="ptitle" style="font-size:48px">Benvenuto</div>
+          <div style="font-size:23px;color:var(--soft)">App desktop per Mac e Windows</div>
+          <div class="field focus" style="width:470px;text-align:left" id="mail1">nome.cognome@colombinigroup.com</div>
+          <div class="btnx" style="width:470px;background:#2B2A27" id="btn1">Continua con l'account aziendale</div>
+        </div>
+        <!-- 2 istruzioni -->
+        <div class="pane" data-m="2">
+          <div class="plabel">Impostazioni / Generali</div>
+          <div class="ptitle" style="margin-top:12px">Istruzioni per Claude</div>
+          <div style="font-size:21px;color:var(--soft);margin-top:10px">Valgono in ogni conversazione.</div>
+          <div class="field focus" style="margin-top:26px;height:300px;line-height:1.5" id="f2">Lavoro nel marketing del Gruppo Colombini, settore arredo premium.<span id="car2" style="display:inline-block;width:3px;height:28px;background:var(--navy);vertical-align:-5px;margin-left:3px"></span></div>
+        </div>
+        <!-- 3 modello -->
+        <div class="pane" data-m="3">
+          <div class="plabel">Modello predefinito</div>
+          <div style="margin-top:22px;display:flex;flex-direction:column;gap:12px" id="models">
+            <div class="row" data-x="h"><span><b style="font-family:Butler,serif;font-size:28px">Haiku</b> <span style="color:var(--soft);font-size:20px">rapido e leggero</span></span><span class="tog"><i></i></span></div>
+            <div class="row" data-x="s"><span><b style="font-family:Butler,serif;font-size:28px">Sonnet</b> <span style="color:var(--soft);font-size:20px">equilibrato, tutti i giorni</span></span><span class="tog"><i></i></span></div>
+            <div class="row" data-x="o"><span><b style="font-family:Butler,serif;font-size:28px">Opus</b> <span style="color:var(--soft);font-size:20px">ragionamento profondo</span></span><span class="tog"><i></i></span></div>
+            <div class="row" data-x="f"><span><b style="font-family:Butler,serif;font-size:28px">Fable</b> <span style="color:var(--soft);font-size:20px">progetti lunghi e autonomi</span></span><span class="tog"><i></i></span></div>
+          </div>
+          <div class="plabel" style="margin-top:28px">Effort</div>
+          <div style="position:relative;margin-top:18px;height:46px">
+            <div style="position:absolute;left:0;right:0;top:20px;height:6px;border-radius:3px;background:var(--line)"></div>
+            <div id="effFill" style="position:absolute;left:0;top:20px;height:6px;border-radius:3px;background:var(--app-acc);width:50%"></div>
+            <div id="effKnob" style="position:absolute;top:8px;width:30px;height:30px;border-radius:50%;background:#fff;border:2px solid var(--app-acc);left:calc(50% - 15px)"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:20px;color:var(--soft)"><span>Basso</span><span id="effMed" style="font-weight:700;color:var(--ink)">Medio</span><span>Alto</span></div>
+        </div>
+        <!-- 4 cartelle attendibili -->
+        <div class="pane" data-m="4">
+          <div class="plabel">Impostazioni</div>
+          <div class="ptitle" style="margin-top:12px">Cartelle attendibili</div>
+          <div style="font-size:21px;color:var(--soft);margin-top:10px">Claude lavora solo nelle cartelle che autorizzi.</div>
+          <div style="margin-top:26px;display:flex;flex-direction:column;gap:12px">
+            <div class="row" id="trust1"><span style="display:flex;align-items:center;gap:18px"><span class="foldic"></span>Marketing Claude</span><span class="tog" id="tg4"><i></i></span></div>
+            <div class="row" style="opacity:.45"><span style="display:flex;align-items:center;gap:18px"><span class="foldic" style="background:#b9b2a6"></span>Tutto il disco</span><span class="tog"><i></i></span></div>
+          </div>
+        </div>
+        <!-- 5 progetto -->
+        <div class="pane" data-m="5">
+          <div class="plabel">Progetti</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px"><div class="ptitle">Nuovo progetto</div><div class="chipx">+ Nuovo progetto</div></div>
+          <div class="field" style="margin-top:22px">Marketing</div>
+          <div class="row" style="margin-top:14px" id="useFolder"><span style="display:flex;align-items:center;gap:18px"><span class="foldic"></span>Usa una cartella esistente</span><span class="chipx" id="pick5">Marketing Claude</span></div>
+          <div id="proj5" style="margin-top:22px;background:#fff;border:1px solid var(--app-line);color:var(--app-ink);border-radius:18px;padding:24px 26px;display:flex;align-items:center;gap:20px">
+            <span class="foldic"></span>
+            <span><b style="font-family:Butler,serif;font-size:32px;font-weight:400">Marketing</b><br><span style="font-size:19px;color:var(--app-soft)">Collegato alla cartella Marketing Claude</span></span>
+          </div>
+        </div>
+        <!-- 6 materiali -->
+        <div class="pane" data-m="6">
+          <div class="plabel">Marketing Claude</div>
+          <div class="ptitle" style="margin-top:12px">Materiali del brand</div>
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px" id="files6">
+            <div class="row"><span style="display:flex;align-items:center;gap:18px"><span class="fileic"></span>Brand book.pdf</span><span style="font-size:19px;color:var(--soft)">01_Brand</span></div>
+            <div class="row"><span style="display:flex;align-items:center;gap:18px"><span class="fileic"></span>Tono di voce.md</span><span style="font-size:19px;color:var(--soft)">00_Leggimi</span></div>
+            <div class="row"><span style="display:flex;align-items:center;gap:18px"><span class="fileic"></span>Esempi approvati</span><span style="font-size:19px;color:var(--soft)">03_Esempi</span></div>
+          </div>
+        </div>
+        <!-- 7 skill -->
+        <div class="pane" data-m="7">
+          <div class="plabel">Customize / Skill e plugin</div>
+          <div style="margin-top:22px;display:flex;flex-direction:column;gap:12px" id="sk7">
+            <div class="row"><span>Word</span><span class="tog"><i></i></span></div>
+            <div class="row"><span>Excel</span><span class="tog"><i></i></span></div>
+            <div class="row"><span>PowerPoint</span><span class="tog"><i></i></span></div>
+            <div class="row" style="background:var(--paper)"><span><b style="font-family:Butler,serif;font-size:28px">Plugin Marketing</b></span><span class="chipx" id="inst7">Installa</span></div>
+          </div>
+        </div>
+        <!-- 8 connettori -->
+        <div class="pane" data-m="8">
+          <div class="plabel">Customize / Connettori</div>
+          <div style="margin-top:22px;display:flex;flex-direction:column;gap:12px" id="cn8">
+            <div class="row"><span>Mail</span><span class="tog"><i></i></span></div>
+            <div class="row"><span>Calendario</span><span class="tog"><i></i></span></div>
+            <div class="row"><span>SharePoint</span><span class="tog"><i></i></span></div>
+            <div class="row" style="opacity:.45"><span>Tutti gli altri</span><span class="tog"><i></i></span></div>
+          </div>
+          <div class="chipx" id="it8" style="margin-top:22px;background:#F3F1EA">Concordato con l'IT</div>
+        </div>
+        <!-- 9 permessi -->
+        <div class="pane" data-m="9" style="display:flex;flex-direction:column;justify-content:flex-end">
+          <div style="position:absolute;left:44px;top:40px" class="plabel">Permessi</div>
+          <div id="perm9" style="position:absolute;right:44px;top:110px;width:420px;background:#fff;border:1px solid var(--app-line);border-radius:16px;padding:12px;box-shadow:0 20px 40px rgba(22,29,51,.12)">
+            <div class="row" style="border:none;background:#F3F1EA" id="pm"><span><b>Manuale</b><br><span style="font-size:19px;color:var(--soft)">Chiede prima di agire</span></span></div>
+            <div class="row" style="border:none;margin-top:6px"><span><b>Auto</b><br><span style="font-size:19px;color:var(--soft)">Per flussi collaudati</span></span></div>
+          </div>
+          <div class="field" style="height:160px;position:relative;border-radius:18px">
+            <span style="color:var(--app-soft)">Digita / per i comandi</span>
+            <div style="position:absolute;left:18px;right:18px;bottom:16px;display:flex;gap:10px;align-items:center"><span class="chipx" style="border:none;padding:6px 8px;font-size:22px">+</span><span class="chipx" style="border:none">Lavora in una cartella</span><span class="chipx sel" id="chipMan">Manuale</span><span style="margin-left:auto;font-size:18px;color:var(--app-ink)">Sonnet 5.5</span><span class="btnx" style="padding:9px 16px;font-size:18px;border-radius:9px">Andiamo <svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          </div>
+        </div>
+        <!-- 10 controllo mensile -->
+        <div class="pane" data-m="10">
+          <div class="plabel">Impostazioni / Utilizzo</div>
+          <div class="ptitle" style="margin-top:12px">Un controllo al mese</div>
+          <div style="margin-top:26px;display:flex;flex-direction:column;gap:22px">
+            <div><div style="display:flex;justify-content:space-between;font-size:22px"><span>Sessione corrente</span><span style="color:var(--soft)">si ricarica ogni 5 ore</span></div><div style="height:12px;border-radius:6px;background:var(--line);margin-top:10px;overflow:hidden"><i class="bar10" style="display:block;height:100%;width:38%;background:var(--app-acc);transform-origin:left center"></i></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:22px"><span>Limite settimanale</span><span style="color:var(--soft)">tetto della settimana</span></div><div style="height:12px;border-radius:6px;background:var(--line);margin-top:10px;overflow:hidden"><i class="bar10" style="display:block;height:100%;width:61%;background:var(--taupe);transform-origin:left center"></i></div></div>
+          </div>
+          <div class="row" style="margin-top:28px"><span>Memoria</span><span class="chipx">Rivedi</span></div>
+        </div>
+        <svg class="cursor" id="cur" viewBox="0 0 24 24"><path d="M4 2l16 10-7 1.5L9.5 21z" fill="#161d33" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- S3 istruzioni personali -->
+  <section class="layer" id="s3">
+    <div id="s3Left">
+      <p class="kicker">Esempio da adattare</p>
+      <h2 class="serif" id="s3Title">Istruzioni personali.</h2>
+      <p id="s3Note">Impostazioni / Generali / Istruzioni per Claude</p>
+    </div>
+    <div class="win" id="s3Win" style="top:200px;height:640px">
+      <div class="main"><div class="pane">
+        <div class="plabel">Istruzioni per Claude</div>
+        <div class="field focus" style="margin-top:20px;height:470px"><div id="typed"></div></div>
+      </div></div>
+    </div>
+    <div id="layers">
+      <div class="lay" id="lay1"><span class="n">1</span><div><h4>Istruzioni per Claude</h4><p>Valgono in ogni conversazione.</p></div></div>
+      <div class="lay" id="lay2"><span class="n">2</span><div><h4>Istruzioni del progetto</h4><p>Aggiungono le regole specifiche.</p></div></div>
+    </div>
+  </section>
+
+  <!-- S4 memoria e privacy -->
+  <section class="layer" id="s4">
+    <div id="s4Left">
+      <p class="kicker" id="s4K">Due parole su</p>
+      <h2 class="serif" id="s4Title">Memoria<br>e privacy.</h2>
+    </div>
+    <div id="memCard">
+      <div class="plabel">Cosa ricorda Claude</div>
+      <div style="margin-top:12px" id="mems">
+        <div class="mem"><b></b>Lavori nel marketing, settore arredo premium</div>
+        <div class="mem"><b></b>Preferisci frasi brevi e niente superlativi</div>
+        <div class="mem"><b></b>Per i testi lunghi vuoi prima una scaletta</div>
+      </div>
+      <div id="memActs"><span class="chipx" id="ma1">Vedi</span><span class="chipx" id="ma2">Correggi</span><span class="chipx" id="ma3">Cancella</span></div>
+    </div>
+    <div id="projRow">
+      <div class="proj"><h5>Marketing</h5><p><span style="width:10px;height:10px;border-radius:50%;background:var(--greige)"></span>la sua memoria</p></div>
+      <div class="proj"><h5>Eventi</h5><p><span style="width:10px;height:10px;border-radius:50%;background:var(--greige)"></span>la sua memoria</p></div>
+      <div class="proj"><h5>Social</h5><p><span style="width:10px;height:10px;border-radius:50%;background:var(--greige)"></span>la sua memoria</p></div>
+    </div>
+    <div id="privRow">
+      <div class="priv" id="privOk"><div class="badge"><svg width="34" height="34" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fbfaf7" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h5>Account aziendale</h5><p>Usa sempre quello di lavoro.</p></div>
+      <div class="priv" id="privNo"><div class="badge"><svg width="30" height="30" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#cbc6bb" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg></div><h5>Account personale</h5><p>Non per i dati aziendali.</p></div>
+    </div>
+    <p id="privNote">Dati sensibili dei clienti: <b>solo se servono.</b></p>
+  </section>
+
+  <!-- S5 errori -->
+  <section class="layer" id="s5">
+    <div id="s5Left">
+      <p class="kicker">E infine</p>
+      <h2 class="serif" id="s5Title">Errori da evitare.</h2>
+      <p id="s5Sub">Li abbiamo visti accadere tutti.</p>
+    </div>
+    <div id="errs"></div>
+  </section>
+
+  <!-- S6 chiusura -->
+  <section class="layer" id="s6">
+    <div id="s6Wrap">
+      <p class="kicker">Capitolo 07</p>
+      <h2 class="serif" id="s6Title">Il setup ideale.</h2>
+      <p class="serif" id="s6Next">Prossimo capitolo: automatizzare il ripetitivo.</p>
+    </div>
+    <img id="logo" src="assets/colombini-logo.png" alt="">
+  </section>
+
+  <div class="layer" id="chrome">
+    <div id="chromeTop"><span>L'AI al lavoro · Capitolo 07</span><span>Il setup ideale</span></div>
+    <div id="progress"><div id="progressTrack"></div><div id="progressFill"></div></div>
+  </div>
+</div>
+
+<script>
+const TOTAL = 122;
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+function ringPath(cx,cy,r){return `M ${cx-r} ${cy} a ${r} ${r} 0 1 0 ${2*r} 0 a ${r} ${r} 0 1 0 ${-2*r} 0 Z`}
+$$(".ring").forEach(r=>{r.querySelector(".band").setAttribute("d",ringPath(612,612,612)+" "+ringPath(612,612,430));r.querySelector(".cres").setAttribute("d",ringPath(612,612,430)+" "+ringPath(660,560,300));});
+
+/* ---------- dati ---------- */
+const MOVES = [
+ [4.12,"Installa l'app desktop","Accedi con l'account aziendale.","rec"],
+ [8.68,"Scrivi le Istruzioni per Claude","Impostazioni / Generali.","imp"],
+ [13.92,"Sonnet, effort medio","Il modello predefinito di tutti i giorni.","rec"],
+ [18.08,"Autorizza la cartella di lavoro","Tra le cartelle attendibili.","imp"],
+ [22.36,"Cartella e progetto collegato","Progetti / + / Usa una cartella esistente.","prj"],
+ [25.92,"Carica i materiali del brand","Brand book, tono di voce, esempi approvati.","prj"],
+ [30.16,"Installa skill e plugin","Word, Excel, PowerPoint e il plugin Marketing.","cus"],
+ [35.56,"Solo i connettori utili","Coinvolgendo l'IT.","cus"],
+ [39.72,"Permessi in Manuale","Claude chiede prima di agire.","rec"],
+ [42.0,"Un controllo al mese","Memoria e utilizzo.","imp"]
+];
+const S2_END = 46.0;
+const roll = $("#counterRoll"), mh = $("#moveHead"), dots = $("#dots");
+MOVES.forEach((m,i)=>{
+  const d=document.createElement("div"); d.textContent=String(i+1).padStart(2,"0"); roll.appendChild(d);
+  const h=document.createElement("div"); h.className="mh"; h.innerHTML=`<h3></h3><p></p>`; h.querySelector("h3").textContent=m[1]; h.querySelector("p").textContent=m[2]; mh.appendChild(h);
+  const dt=document.createElement("div"); dt.className="d"; dt.innerHTML="<i></i>"; dots.appendChild(dt);
+});
+const SENT = [
+ [48.72,52.80,"Lavoro nel marketing del Gruppo Colombini, settore arredo premium. "],
+ [53.20,55.76,"Quando mancano dati chiedimeli, non inventare. "],
+ [56.08,58.48,"Per i testi lunghi proponi prima una scaletta. "],
+ [58.80,61.28,"Indica sempre le fonti quando cerchi sul web. "],
+ [61.60,64.56,"Se un compito è ambiguo, fammi una domanda prima di partire."]
+];
+const typed=$("#typed"); const chars=[];
+SENT.forEach(s=>{ for(const c of s[2]){ const sp=document.createElement("span"); sp.className="c"; sp.textContent=c; typed.appendChild(sp); chars.push([sp,s]); } });
+const caret=document.createElement("span"); caret.id="caret"; typed.appendChild(caret);
+const ERRS = [
+ [96.48,"Chat infinite su argomenti diversi"],
+ [100.44,"Ricaricare ogni volta gli stessi file"],
+ [104.40,"Il modello più potente per tutto"],
+ [107.00,"Ritoccare a mano e poi far rigenerare"],
+ [110.60,"Accesso a tutto il disco o a tutti gli account"],
+ [113.88,"Fidarsi di numeri e fatti senza verificarli"],
+ [116.88,"Partire dall'automazione più complessa"]
+];
+const errs=$("#errs");
+ERRS.forEach((e,i)=>{ const d=document.createElement("div"); d.className="err"; d.innerHTML=`<span class="x"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#fbfaf7" stroke-width="3" fill="none" stroke-linecap="round"/></svg></span><span class="tx"><span></span><i class="st"></i></span><span class="n">${String(i+1).padStart(2,"0")}</span>`; d.querySelector(".tx span").textContent=e[1]; errs.appendChild(d); });
+
+/* ---------- motore di animazione deterministico ---------- */
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const E={lin:x=>x, out3:x=>1-Math.pow(1-x,3), in3:x=>x*x*x, io3:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, outExpo:x=>x>=1?1:1-Math.pow(2,-10*x), back:x=>{const c1=1.7,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)}, sine:x=>-(Math.cos(Math.PI*x)-1)/2};
+const P=(t,a,d,e=E.out3)=>e(clamp((t-a)/d));
+const lerp=(a,b,p)=>a+(b-a)*p;
+function st(el,{o,x=0,y=0,s=1,r=0,blur=0,clip}={}){ if(!el) return; if(o!==undefined) el.style.opacity=o; el.style.transform=`translate(${x}px,${y}px) scale(${s}) rotate(${r}deg)`; el.style.filter=blur?`blur(${blur}px)`:"none"; if(clip!==undefined) el.style.clipPath=clip; }
+function win(t,a,b,fi=.5,fo=.45){ if(t<a||t>b) return 0; return Math.min(P(t,a,fi,E.out3), 1-P(t,b-fo,fo,E.in3)); }
+function vis(el,o){ el.style.visibility=o>0.001?"visible":"hidden"; }
+
+function render(t){
+  /* sfondo */
+  st($("#glow"),{s:lerp(.92,1.08,(Math.sin(t*0.6)+1)/2)});
+  /* anelli: apertura, poi escono; rientrano nel finale */
+  const rt=$("#ringTop"), rb=$("#ringBot");
+  if(t<4.6){ const p=P(t,0.1,1.6,E.outExpo); st(rt,{x:520,y:lerp(-760,0,p),r:lerp(-110,-15,p)+t*2,s:.78}); st(rb,{x:520,y:lerp(760,0,p),r:lerp(110,15,p)-t*2,s:.78}); }
+  else if(t<120){ const p=P(t,3.7,.6,E.in3); st(rt,{x:520,y:lerp(0,-1200,p),r:-8+p*120,s:.78}); st(rb,{x:520,y:lerp(0,1200,p),r:8-p*120,s:.78}); }
+  else { const p=P(t,119.3,1.6,E.outExpo); st(rt,{x:520,y:lerp(-1200,0,p),r:lerp(-160,0,p),s:.78}); st(rb,{x:520,y:lerp(1200,0,p),r:lerp(160,0,p),s:.78}); }
+
+  /* chrome */
+  const co = Math.min(P(t,4.2,.6), 1-P(t,118.6,.5));
+  st($("#chromeTop"),{o:co,y:lerp(-14,0,P(t,4.2,.6))});
+  st($("#progress"),{o:co}); $("#progressFill").style.transform=`scaleX(${clamp(t/119.2)})`;
+  const paper = t>92.6 && t<118.9;
+  $("#chromeTop").style.color = paper ? "#75655c" : "#cbc6bb";
+  $("#progressFill").style.background = paper ? "#75655c" : "#cbc6bb";
+  $("#progressTrack").style.background = paper ? "rgba(117,101,92,.25)" : "rgba(203,198,187,.25)";
+
+  /* S1 */
+  const s1=$("#s1"); const o1=win(t,0,4.0,.01,.45); vis(s1,o1); st(s1,{o:o1});
+  st($("#s1K"),{o:P(t,.4,.6),y:lerp(16,0,P(t,.4,.6))});
+  st($("#s1a"),{y:lerp(170,0,P(t,.7,.8,E.outExpo))});
+  st($("#s1b"),{y:lerp(170,0,P(t,1.05,.8,E.outExpo))});
+  st($("#s1Sub"),{o:P(t,2.3,.7),y:lerp(24,0,P(t,2.3,.7))});
+
+  /* S2 */
+  const s2=$("#s2"); const o2=win(t,3.8,S2_END,.6,.5); vis(s2,o2); st(s2,{o:o2});
+  let mi=-1; MOVES.forEach((m,i)=>{ if(t>=m[0]-0.15) mi=i; });
+  const cmi=Math.max(0,mi);
+  // contatore
+  let y=0; MOVES.forEach((m,i)=>{ if(i>0) y+= -300*P(t,m[0]-0.15,.35,E.out3); }); st(roll,{y});
+  st($("#counter"),{o:P(t,4.0,.5),y:lerp(40,0,P(t,4.0,.5,E.outExpo))});
+  $$(".mh").forEach((h,i)=>{ const a=MOVES[i][0]-0.1, b=(MOVES[i+1]?MOVES[i+1][0]:S2_END+1)-0.15; const o=(t>=a-0.01&&t<b+0.3)?Math.min(P(t,a,.45),1-P(t,b,.25,E.in3)):0; st(h,{o,y:lerp(26,0,P(t,a,.5,E.outExpo))-lerp(0,20,P(t,b,.25,E.in3))}); });
+  $$(".d i").forEach((d,i)=>{ d.style.transform=`scaleX(${P(t,MOVES[i][0]-0.1,.4)})`; });
+  st($("#dots"),{o:P(t,4.3,.5)});
+  const aw=$("#appWin"); st(aw,{o:P(t,4.0,.4),y:lerp(70,0,P(t,4.0,.8,E.outExpo)),s:lerp(.95,1,P(t,4.0,.8,E.outExpo))});
+  $$(".si").forEach(s=>s.classList.toggle("on", s.dataset.k===MOVES[cmi][3]));
+  $$("#panes .pane").forEach(p=>{ const k=+p.dataset.m-1; const a=MOVES[k][0]-0.15, b=(MOVES[k+1]?MOVES[k+1][0]:S2_END+1)-0.15; const o=(t>=a&&t<b+0.25)?Math.min(P(t,a,.35),1-P(t,b,.2,E.in3)):(k===0&&t<a?1:0); p.style.visibility=o>0.001?"visible":"hidden"; st(p,{o,y:lerp(18,0,P(t,a,.45,E.outExpo))}); });
+  // dettagli per mossa
+  st($("#btn1"),{s:1-0.05*Math.sin(Math.PI*clamp((t-6.4)/.3))});
+  $("#car2").style.opacity = (Math.floor(t*2.2)%2)?1:0;
+  $$("#models .row").forEach(r=>{ const on=r.dataset.x==="s" && t>15.3; r.querySelector(".tog").classList.toggle("on",on); r.style.borderColor=on?"#C96442":"#E6E2D8"; });
+  const ef=lerp(10,50,P(t,16.1,.7)); $("#effFill").style.width=ef+"%"; $("#effKnob").style.left=`calc(${ef}% - 15px)`;
+  $("#tg4").classList.toggle("on", t>20.0); $("#trust1").style.borderColor = t>20.0 ? "#C96442" : "#E6E2D8";
+  st($("#pick5"),{o:P(t,23.7,.3)}); st($("#proj5"),{o:P(t,24.4,.4),y:lerp(20,0,P(t,24.4,.5,E.back))});
+  $$("#files6 .row").forEach((r,i)=>{ const a=[27.04,28.0,28.8][i]; st(r,{o:P(t,a,.3),x:lerp(40,0,P(t,a,.45,E.back))}); });
+  $$("#sk7 .row").forEach((r,i)=>{ if(i<3){ r.querySelector(".tog").classList.toggle("on", t>[32.0,32.48,33.12][i]); } });
+  $("#inst7").textContent = t>34.6 ? "Installato" : "Installa"; $("#inst7").classList.toggle("sel", t>34.6);
+  $$("#cn8 .row").forEach((r,i)=>{ if(i<3) r.querySelector(".tog").classList.toggle("on", t>[37.4,37.75,38.1][i]); });
+  st($("#it8"),{o:P(t,38.4,.35),s:lerp(.85,1,P(t,38.4,.4,E.back))});
+  st($("#perm9"),{o:P(t,40.2,.3),y:lerp(16,0,P(t,40.2,.35))});
+  $("#pm").style.outline = t>40.9 ? "2px solid #C96442" : "none";
+  $$(".bar10").forEach((b,i)=>{ b.style.transform=`scaleX(${P(t,43.4+i*.35,.8)})`; });
+  // cursore
+  const C=[[4.6,360,520],[6.3,370,420],[9.4,330,320],[14.5,560,190],[15.2,640,190],[16.2,330,500],[18.6,600,330],[19.8,610,300],[23.0,450,330],[23.6,600,330],[26.4,560,420],[31.0,620,200],[32.0,640,170],[33.2,640,320],[34.4,620,400],[36.2,640,180],[38.1,640,320],[40.2,380,560],[40.8,520,150],[42.6,600,420],[45.0,600,540]];
+  let cx=C[0][1],cy=C[0][2]; for(let i=0;i<C.length;i++){ if(t>=C[i][0]){ const n=C[i+1]; if(n){ const p=P(t,C[i][0]+0.2,Math.min(.7,n[0]-C[i][0]-0.2),E.io3); cx=C[i][1]; cy=C[i][2]; if(t>=C[i][0]+0.2){ cx=lerp(C[i][1],n[1],p); cy=lerp(C[i][2],n[2],p); } } else { cx=C[i][1]; cy=C[i][2]; } } }
+  st($("#cur"),{o:P(t,4.6,.3),x:cx,y:cy});
+
+  /* S3 */
+  const s3=$("#s3"); const o3=win(t,45.7,70.6,.5,.45); vis(s3,o3); st(s3,{o:o3});
+  st($("#s3Left"),{o:P(t,46.1,.5),y:lerp(30,0,P(t,46.1,.6,E.outExpo))});
+  const w3=$("#s3Win"); const out3=P(t,64.7,.6,E.io3);
+  st(w3,{o:P(t,46.4,.4)*(1-out3),y:lerp(60,0,P(t,46.4,.8,E.outExpo))-lerp(0,80,out3),s:1-0.06*out3});
+  let last=null; chars.forEach(([sp,s],j)=>{ const span=s[1]-s[0]-0.15; const idx=s[2].indexOf(sp.textContent); });
+  SENT.forEach(s=>{ const n=s[2].length; const k=Math.floor(n*clamp((t-s[0])/(s[1]-s[0]-0.1))); s.k=k; });
+  let ci=0; SENT.forEach(s=>{ for(let j=0;j<s[2].length;j++){ chars[ci][0].style.display = j<s.k?"inline":"none"; ci++; } });
+  caret.style.opacity = t<64.6 ? ((Math.floor(t*2.4)%2)?1:0.15) : 0;
+  st($("#s3Note"),{o:P(t,46.8,.5)*(1-P(t,64.7,.4))});
+  st($("#lay1"),{o:P(t,65.2,.5),y:lerp(60,0,P(t,65.2,.7,E.outExpo))});
+  st($("#lay2"),{o:P(t,68.1,.45),y:lerp(-60,0,P(t,68.1,.7,E.back))});
+
+  /* S4 */
+  const s4=$("#s4"); const o4=win(t,70.4,92.7,.5,.45); vis(s4,o4); st(s4,{o:o4});
+  st($("#s4Left"),{o:P(t,70.8,.5),y:lerp(30,0,P(t,70.8,.6,E.outExpo))});
+  const memOut=P(t,84.7,.5,E.in3);
+  st($("#memCard"),{o:P(t,73.0,.4)*(1-memOut),y:lerp(60,0,P(t,73.0,.8,E.outExpo))-lerp(0,60,memOut)});
+  $$("#mems .mem").forEach((m,i)=>st(m,{o:P(t,73.6+i*.45,.35),x:lerp(30,0,P(t,73.6+i*.45,.45))}));
+  [["#ma1",77.4],["#ma2",78.75],["#ma3",79.7]].forEach(([id,a])=>{ const on=t>a; $(id).classList.toggle("sel",on); st($(id),{s:1+0.08*Math.sin(Math.PI*clamp((t-a)/.3))}); });
+  st($("#projRow"),{o:P(t,81.6,.45)*(1-memOut),y:lerp(40,0,P(t,81.6,.6,E.outExpo))});
+  $$("#projRow .proj").forEach((p,i)=>st(p,{o:P(t,81.7+i*.3,.35),y:lerp(30,0,P(t,81.7+i*.3,.5,E.back))}));
+  st($("#privOk"),{o:P(t,85.3,.45),y:lerp(50,0,P(t,85.3,.7,E.outExpo))});
+  st($("#privNo"),{o:P(t,87.8,.45),y:lerp(50,0,P(t,87.8,.7,E.outExpo))});
+  st($("#privNote"),{o:P(t,89.4,.5),y:lerp(24,0,P(t,89.4,.6))});
+  $("#s4K").textContent = t<84.9 ? "Due parole su" : "Sul fronte privacy";
+
+  /* S5 */
+  const s5=$("#s5"); const o5=t>=92.6&&t<119.2?1:0; vis(s5,o5);
+  const wipe=P(t,92.6,.5,E.io3), wout=P(t,118.7,.5,E.io3);
+  s5.style.clipPath=`inset(${lerp(100,0,wipe)}% 0% ${lerp(0,100,wout)}% 0%)`;
+  st($("#s5Left"),{o:P(t,93.0,.5),y:lerp(30,0,P(t,93.0,.6,E.outExpo))});
+  $$(".err").forEach((e,i)=>{ const a=ERRS[i][0]-0.1; st(e,{o:P(t,a,.35),x:lerp(60,0,P(t,a,.55,E.back))}); e.querySelector(".st").style.transform=`scaleX(${P(t,a+1.1,.6,E.io3)})`; e.querySelector(".tx span").style.opacity = 1-0.25*P(t,a+1.1,.6); });
+
+  /* S6 */
+  const s6=$("#s6"); const o6=t>=119.0?P(t,119.3,.6):0; vis(s6,o6); st(s6,{o:o6});
+  st($("#s6Wrap"),{y:lerp(30,0,P(t,119.4,.8,E.outExpo))});
+  st($("#s6Next"),{o:P(t,120.2,.6)});
+  st($("#logo"),{o:P(t,120.4,.6)});
+}
+window.__seek = t => render(t);
+window.__total = TOTAL;
+render(0);
+</script>
+</body>
+</html>
