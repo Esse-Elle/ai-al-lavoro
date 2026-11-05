@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>AI at Work · Intro</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Butler"; src: url("assets/fonts/Butler_Bold.otf") format("opentype"); font-weight: 700; }
+      @font-face { font-family: "Butler"; src: url("assets/fonts/Butler_Regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Karla"; src: url("assets/fonts/Karla-Regular.ttf") format("truetype"); font-weight: 400; }
+      @font-face { font-family: "Karla"; src: url("assets/fonts/Karla-Medium.ttf") format("truetype"); font-weight: 500; }
+      @font-face { font-family: "Karla"; src: url("assets/fonts/Karla-SemiBold.ttf") format("truetype"); font-weight: 600; }
+
+      :root {
+        --navy: #161d33;
+        --navy-2: #1f2742;
+        --greige: #cbc6bb;
+        --taupe: #75655c;
+        --paper: #f3f1ed;
+        --ink: #161d33;
+        --white: #fbfaf7;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--navy); }
+      #root {
+        position: relative; width: 100%; height: 100%; overflow: hidden;
+        font-family: "Karla", sans-serif; color: var(--white);
+      }
+      .layer { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .serif { font-family: "Butler", serif; }
+      .kicker {
+        font-family: "Karla", sans-serif; font-weight: 600; font-size: 22px;
+        letter-spacing: 0.22em; text-transform: uppercase; color: var(--greige);
+      }
+
+      /* ---------- background ---------- */
+      #bg { background: var(--navy); z-index: 1; }
+      #glow {
+        position: absolute; width: 1400px; height: 1400px; left: 260px; top: -160px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(60, 70, 110, 0.55) 0%, rgba(22, 29, 51, 0) 65%);
+      }
+
+      /* ---------- rings (deck arcs) ---------- */
+      #rings { z-index: 2; }
+      .ring { position: absolute; width: 1224px; height: 1224px; left: 348px; }
+      #ringTop { top: -684px; }
+      #ringBot { top: 540px; }
+      .ring svg { width: 100%; height: 100%; display: block; }
+
+      /* ---------- chrome ---------- */
+      #chrome { z-index: 20; pointer-events: none; }
+      #chromeTop {
+        position: absolute; left: 140px; right: 140px; top: 64px;
+        display: flex; justify-content: space-between;
+        font-weight: 600; font-size: 20px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--greige);
+      }
+      #progress { position: absolute; left: 140px; right: 140px; bottom: 64px; height: 3px; }
+      #progressTrack { position: absolute; inset: 0; background: rgba(203, 198, 187, 0.25); }
+      #progressFill { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: var(--greige); transform-origin: left center; }
+
+      /* ---------- scene 1 ---------- */
+      #s1 { z-index: 5; }
+      #s1 .wrap { position: absolute; left: 140px; top: 290px; width: 1000px; }
+      #s1Lead { font-weight: 400; font-size: 54px; line-height: 1.15; color: var(--greige); max-width: 820px; }
+      .s1Big { font-weight: 700; font-size: 104px; line-height: 1.05; color: var(--white); display: block; }
+      #s1Big1 { margin-top: 56px; }
+      .s1Mark { display: inline-block; width: 18px; height: 18px; border-radius: 50%; background: var(--taupe); margin-right: 28px; vertical-align: middle; position: relative; top: -10px; }
+
+      /* ---------- scene 2 ---------- */
+      #s2 { z-index: 5; display: flex; align-items: center; justify-content: center; }
+      #s2Title { text-align: center; font-weight: 700; font-size: 158px; line-height: 1.04; color: var(--white); }
+      .line { display: block; overflow: hidden; padding: 0 20px 18px; }
+      .line > span { display: inline-block; }
+      #s2Kicker { position: absolute; left: 0; right: 0; top: 330px; text-align: center; }
+
+      /* ---------- scene 3 (paper) ---------- */
+      #s3 { z-index: 6; background: var(--paper); color: var(--ink); }
+      #s3 .head { position: absolute; left: 140px; top: 168px; }
+      #s3 .kicker { color: var(--taupe); }
+      #s3Title { margin-top: 18px; font-weight: 700; font-size: 84px; line-height: 1.05; color: var(--ink); }
+      #cards { position: absolute; left: 140px; right: 140px; top: 390px; height: 420px; display: flex; gap: 28px; }
+      .card {
+        flex: 1; height: 100%; background: #ffffff; border-radius: 20px; padding: 34px 24px;
+        display: flex; flex-direction: column; box-shadow: 0 18px 40px rgba(22, 29, 51, 0.08);
+      }
+      .card .ck { font-weight: 600; font-size: 18px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--taupe); }
+      .card .nm { font-family: "Butler", serif; font-weight: 700; font-size: 40px; white-space: nowrap; letter-spacing: -0.01em; line-height: 1.1; margin-top: 14px; color: var(--ink); }
+      .card .by { font-size: 22px; color: #5f636d; margin-top: 10px; }
+      .card .rule { width: 100%; height: 3px; background: var(--greige); margin: 22px 0; }
+      .card .job { font-family: "Butler", serif; font-weight: 400; font-size: 32px; line-height: 1.2; color: var(--ink); }
+      .card .pts { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
+      .card .pt { font-size: 21px; line-height: 1.25; color: var(--ink); padding-left: 20px; position: relative; }
+      .card .pt::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--taupe); }
+      .card.dark .pt { color: var(--white); }
+      .card.dark .pt::before { background: var(--greige); }
+      .card.dark { background: var(--navy); }
+      .card.dark .ck { color: var(--greige); }
+      .card.dark .nm, .card.dark .job { color: var(--white); }
+      .card.dark .by { color: #c9c6c0; }
+      .card.dark .rule { background: var(--white); }
+      #s3Line { position: absolute; left: 140px; top: 868px; font-family: "Butler", serif; font-size: 46px; line-height: 1.2; color: var(--ink); }
+      #s3Line b { font-weight: 700; }
+
+      /* ---------- scene 4 (Claude) ---------- */
+      #s4 { z-index: 7; }
+      #s4Panel { position: absolute; inset: 0; background: var(--navy); }
+      #s4Left { position: absolute; left: 140px; top: 230px; width: 560px; }
+      #s4Title { margin-top: 20px; font-weight: 700; font-size: 76px; line-height: 1.06; color: var(--white); }
+      #s4List { margin-top: 48px; display: flex; flex-direction: column; gap: 20px; }
+      .li { display: flex; align-items: center; gap: 22px; font-weight: 500; font-size: 34px; color: var(--white); }
+      .badge {
+        width: 46px; height: 46px; border-radius: 50%; background: var(--taupe); color: var(--white);
+        font-weight: 600; font-size: 22px; display: flex; align-items: center; justify-content: center; flex: none;
+      }
+      #win {
+        position: absolute; left: 790px; top: 210px; width: 990px; height: 660px; border-radius: 22px; overflow: hidden;
+        background: #ffffff; display: flex; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.35);
+      }
+      #winMain { position: relative; width: 630px; height: 100%; padding: 44px 40px; }
+      #winSide { width: 360px; height: 100%; background: var(--paper); padding: 44px 34px; color: var(--ink); }
+      #bubble {
+        position: absolute; right: 40px; top: 44px; background: #efebe5; color: var(--ink);
+        border-radius: 14px; padding: 18px 24px; font-size: 26px;
+      }
+      #replyBars { position: absolute; left: 40px; top: 150px; width: 540px; }
+      .bar { display: block; height: 16px; border-radius: 8px; background: var(--greige); margin-bottom: 20px; transform-origin: left center; }
+      #inputBox {
+        position: absolute; left: 40px; right: 40px; bottom: 44px; height: 170px; border: 3px solid var(--navy);
+        border-radius: 18px; padding: 26px 26px; color: var(--ink);
+      }
+      #typed { font-size: 30px; height: 40px; white-space: nowrap; }
+      #typed .ch { display: none; }
+      #caret { display: inline-block; width: 3px; height: 34px; background: var(--navy); vertical-align: middle; margin-left: 2px; }
+      #placeholder { position: absolute; left: 26px; top: 26px; font-size: 30px; color: #6b6e76; }
+      #chips { position: absolute; left: 26px; right: 26px; bottom: 22px; display: flex; gap: 12px; align-items: center; }
+      .chip { background: #efebe5; border-radius: 999px; padding: 8px 18px; font-size: 20px; color: var(--ink); white-space: nowrap; }
+      .chip.right { margin-left: auto; }
+      .sideLabel { font-weight: 600; font-size: 18px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--taupe); }
+      .steps { margin: 22px 0 44px; display: flex; flex-direction: column; gap: 18px; }
+      .step { display: flex; align-items: center; gap: 16px; font-size: 23px; color: var(--ink); }
+      .dot { position: relative; width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--taupe); flex: none; }
+      .dotFill {
+        position: absolute; inset: -3px; border-radius: 50%; background: var(--navy);
+        display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 16px; font-weight: 600;
+      }
+      #file {
+        margin-top: 20px; background: #ffffff; border: 2px solid var(--greige); border-radius: 14px;
+        padding: 18px 20px; display: flex; align-items: center; gap: 16px; font-size: 24px; color: var(--ink);
+      }
+      #fileIcon { width: 34px; height: 42px; border-radius: 4px; background: var(--navy); position: relative; flex: none; }
+      #fileIcon::after { content: ""; position: absolute; left: 8px; right: 8px; top: 14px; height: 3px; background: var(--greige); box-shadow: 0 7px 0 var(--greige), 0 14px 0 var(--greige); }
+
+      /* ---------- scene 5 (programma) ---------- */
+      #s5 { z-index: 8; }
+      #s5Left { position: absolute; left: 140px; top: 250px; width: 600px; }
+      #counter { margin-top: 10px; height: 360px; overflow: hidden; }
+      #counterRoll { display: flex; flex-direction: column; }
+      #counterRoll div { height: 360px; font-family: "Butler", serif; font-weight: 700; font-size: 340px; line-height: 360px; color: var(--greige); }
+      #s5Sub { font-family: "Butler", serif; font-size: 46px; color: var(--white); margin-top: 6px; }
+      #listMask {
+        position: absolute; left: 820px; right: 140px; top: 150px; height: 780px; overflow: hidden;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+        mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+      }
+      #listRoll { position: absolute; left: 0; right: 0; top: 0; }
+      .item { height: 96px; display: flex; align-items: center; gap: 28px; }
+      .item .n { font-weight: 600; font-size: 24px; letter-spacing: 0.1em; color: var(--greige); width: 44px; flex: none; }
+      .item .t { font-family: "Butler", serif; font-size: 58px; color: var(--white); white-space: nowrap; }
+
+      /* ---------- scene 6 (cover) ---------- */
+      #s6 { z-index: 5; }
+      #s6Wrap { position: absolute; left: 72px; top: 398px; width: 560px; }
+      #s6Date { font-weight: 600; font-size: 22px; line-height: 1.3; color: var(--white); }
+      #s6Title { margin-top: 62px; font-weight: 700; font-size: 98px; line-height: 0.98; color: var(--white); }
+      #s6Sub { margin-top: 70px; font-weight: 400; font-size: 46px; line-height: 1.0; color: var(--white); max-width: 440px; }
+      #logo { position: absolute; left: 72px; bottom: 76px; width: 320px; height: auto; display: block; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-j7pz" id="root" data-composition-id="main" data-start="0" data-duration="30" data-width="1920" data-height="1080">
+      <!-- background -->
+      <div data-hf-id="hf-itlr" id="bg" class="layer clip" data-start="0" data-duration="30" data-track-index="0">
+        <div data-hf-id="hf-27c6" id="glow"></div>
+      </div>
+
+      <!-- deck arcs -->
+      <div data-hf-id="hf-zrzg" id="rings" class="layer clip" data-start="0" data-duration="30" data-track-index="1">
+        <div data-hf-id="hf-ofw3" id="ringTop" class="ring"><svg data-hf-id="hf-iep2" viewBox="0 0 1224 1224" aria-hidden="true">
+          <defs data-hf-id="hf-mh0t">
+            <linearGradient data-hf-id="hf-54v4" id="gBandT" x1="0" y1="0" x2="1" y2="0">
+              <stop data-hf-id="hf-72ub" offset="0" stop-color="#7c6a60" /><stop data-hf-id="hf-gsg7" offset="0.28" stop-color="#b8aa9d" />
+              <stop data-hf-id="hf-p50e" offset="0.5" stop-color="#1c2232" /><stop data-hf-id="hf-kv89" offset="0.74" stop-color="#5c4d48" /><stop data-hf-id="hf-9hsw" offset="1" stop-color="#8f7d71" />
+            </linearGradient>
+            <linearGradient data-hf-id="hf-9ymm" id="gCresT" x1="0" y1="0" x2="1" y2="0">
+              <stop data-hf-id="hf-5yba" offset="0" stop-color="#8b7a6f" /><stop data-hf-id="hf-n342" offset="0.6" stop-color="#bdb1a4" /><stop data-hf-id="hf-i6zf" offset="1" stop-color="#d9d1c5" />
+            </linearGradient>
+          </defs>
+          <path data-hf-id="hf-s40s" class="band" fill="url(#gBandT)" fill-rule="evenodd" />
+          <path data-hf-id="hf-5sr8" class="cres" fill="url(#gCresT)" fill-rule="evenodd" />
+        </svg></div>
+        <div data-hf-id="hf-vnql" id="ringBot" class="ring"><svg data-hf-id="hf-ay5m" viewBox="0 0 1224 1224" aria-hidden="true">
+          <defs data-hf-id="hf-vl9d">
+            <linearGradient data-hf-id="hf-fadm" id="gBandB" x1="0" y1="0" x2="1" y2="0">
+              <stop data-hf-id="hf-gen7" offset="0" stop-color="#7c6a60" /><stop data-hf-id="hf-diqv" offset="0.28" stop-color="#b8aa9d" />
+              <stop data-hf-id="hf-m0si" offset="0.5" stop-color="#1c2232" /><stop data-hf-id="hf-vgfh" offset="0.74" stop-color="#5c4d48" /><stop data-hf-id="hf-mx5k" offset="1" stop-color="#8f7d71" />
+            </linearGradient>
+            <linearGradient data-hf-id="hf-lbto" id="gCresB" x1="0" y1="0" x2="1" y2="0">
+              <stop data-hf-id="hf-ht96" offset="0" stop-color="#8b7a6f" /><stop data-hf-id="hf-wmp2" offset="0.6" stop-color="#bdb1a4" /><stop data-hf-id="hf-dpnf" offset="1" stop-color="#d9d1c5" />
+            </linearGradient>
+          </defs>
+          <path data-hf-id="hf-9rmi" class="band" fill="url(#gBandB)" fill-rule="evenodd" />
+          <path data-hf-id="hf-lsr6" class="cres" fill="url(#gCresB)" fill-rule="evenodd" />
+        </svg></div>
+      </div>
+
+      <!-- SCENE 1 · aggancio -->
+      <section data-hf-id="hf-9zfs" id="s1" class="layer clip" data-start="0" data-duration="4.9" data-track-index="2">
+        <div data-hf-id="hf-wnm4" class="wrap">
+          <p data-hf-id="hf-tevt" id="s1Lead" class="serif">In marketing, time goes in two ways.</p>
+          <span data-hf-id="hf-b9eu" id="s1Big1" class="s1Big serif"><span data-hf-id="hf-glxy" class="s1Mark"></span>Creating content.</span>
+          <span data-hf-id="hf-mxat" id="s1Big2" class="s1Big serif"><span data-hf-id="hf-2whm" class="s1Mark"></span>Handling the repetitive.</span>
+        </div>
+      </section>
+
+      <!-- SCENE 2 · svolta -->
+      <section data-hf-id="hf-lbmq" id="s2" class="layer clip" data-start="4.5" data-duration="4.8" data-track-index="3">
+        <p data-hf-id="hf-uqws" id="s2Kicker" class="kicker">AI training for Marketing</p>
+        <h1 data-hf-id="hf-6o96" id="s2Title" class="serif">
+          <span data-hf-id="hf-6c9z" class="line"><span data-hf-id="hf-wnfe" id="s2w1">AI empowers</span></span>
+          <span data-hf-id="hf-tvt3" class="line"><span data-hf-id="hf-96ra" id="s2w2">those who use it.</span></span>
+        </h1>
+      </section>
+
+      <!-- SCENE 3 · cinque strumenti -->
+      <section data-hf-id="hf-u8db" id="s3" class="layer clip" data-start="8.9" data-duration="6.1" data-track-index="4">
+        <div data-hf-id="hf-z992" class="head">
+          <p data-hf-id="hf-w8cp" class="kicker" id="s3Kicker">The AI landscape</p>
+          <h2 data-hf-id="hf-qqnx" id="s3Title" class="serif">Five tools, five jobs.</h2>
+        </div>
+        <div data-hf-id="hf-nia2" id="cards">
+          <div data-hf-id="hf-vn2y" class="card"><p data-hf-id="hf-m5po" class="ck">Text and ideas</p><p data-hf-id="hf-bh9v" class="nm">ChatGPT</p><p data-hf-id="hf-vpjz" class="by">by OpenAI</p><div data-hf-id="hf-a46i" class="rule"></div><p data-hf-id="hf-jnj6" class="job">The generalist</p><div data-hf-id="hf-jjqn" class="pts"><p data-hf-id="hf-0xxl" class="pt">Quick drafts</p><p data-hf-id="hf-dpv9" class="pt">Images in chat</p></div></div>
+          <div data-hf-id="hf-ttdw" class="card dark" id="cardClaude"><p data-hf-id="hf-n8mk" class="ck">Text and work</p><p data-hf-id="hf-rigm" class="nm">Claude</p><p data-hf-id="hf-omh3" class="by">by Anthropic</p><div data-hf-id="hf-ya9a" class="rule"></div><p data-hf-id="hf-fg6n" class="job">The collaborator that reasons</p><div data-hf-id="hf-amrz" class="pts"><p data-hf-id="hf-67g0" class="pt">Polished writing</p><p data-hf-id="hf-cloe" class="pt">Works on files and tools</p></div></div>
+          <div data-hf-id="hf-i08u" class="card"><p data-hf-id="hf-o7th" class="ck">Google ecosystem</p><p data-hf-id="hf-w0mz" class="nm">Gemini</p><p data-hf-id="hf-4iiy" class="by">by Google</p><div data-hf-id="hf-yokb" class="rule"></div><p data-hf-id="hf-y5s8" class="job">The Gmail and Drive assistant</p><div data-hf-id="hf-a8gy" class="pts"><p data-hf-id="hf-vznt" class="pt">Already in your account</p><p data-hf-id="hf-7i7l" class="pt">NotebookLM</p></div></div>
+          <div data-hf-id="hf-iejv" class="card"><p data-hf-id="hf-7pke" class="ck">Research</p><p data-hf-id="hf-x2z6" class="nm">Perplexity</p><p data-hf-id="hf-0r07" class="by">by Perplexity AI</p><div data-hf-id="hf-z2vc" class="rule"></div><p data-hf-id="hf-6r4d" class="job">Research with sources</p><div data-hf-id="hf-9u5x" class="pts"><p data-hf-id="hf-h52h" class="pt">Trends and competitors</p><p data-hf-id="hf-zr02" class="pt">Clickable sources</p></div></div>
+          <div data-hf-id="hf-isuw" class="card"><p data-hf-id="hf-atn0" class="ck">Images and video</p><p data-hf-id="hf-cph2" class="nm">Leonardo AI</p><p data-hf-id="hf-athg" class="by">by Canva</p><div data-hf-id="hf-waq5" class="rule"></div><p data-hf-id="hf-kfe1" class="job">The visual studio</p><div data-hf-id="hf-cmb4" class="pts"><p data-hf-id="hf-c1s7" class="pt">Moodboards and concepts</p><p data-hf-id="hf-kb2e" class="pt">Images and video</p></div></div>
+        </div>
+        <p data-hf-id="hf-9ct7" id="s3Line">There is no best AI. <b data-hf-id="hf-smye">There's the right one for the task.</b></p>
+      </section>
+
+      <!-- SCENE 4 · dentro Claude -->
+      <section data-hf-id="hf-nh0j" id="s4" class="layer clip" data-start="14.2" data-duration="6.7" data-track-index="5">
+        <div data-hf-id="hf-ow1u" id="s4Panel"></div>
+        <div data-hf-id="hf-62h7" id="s4Content" class="layer">
+          <div data-hf-id="hf-q5tf" id="s4Left">
+            <p data-hf-id="hf-5b94" class="kicker">Inside Claude</p>
+            <h2 data-hf-id="hf-0xzi" id="s4Title" class="serif">From request to finished work.</h2>
+            <div data-hf-id="hf-774o" id="s4List">
+              <div data-hf-id="hf-pbwr" class="li"><span data-hf-id="hf-r2a1" class="badge">1</span>Projects</div>
+              <div data-hf-id="hf-7k92" class="li"><span data-hf-id="hf-s974" class="badge">2</span>Skills</div>
+              <div data-hf-id="hf-yn2l" class="li"><span data-hf-id="hf-ruw3" class="badge">3</span>Agents</div>
+              <div data-hf-id="hf-psbv" class="li"><span data-hf-id="hf-pvcy" class="badge">4</span>Automations</div>
+            </div>
+          </div>
+          <div data-hf-id="hf-7on1" id="win">
+            <div data-hf-id="hf-pwfu" id="winMain">
+              <div data-hf-id="hf-6jgv" id="bubble">Prepare the campaign report</div>
+              <div data-hf-id="hf-l1it" id="replyBars">
+                <span data-hf-id="hf-0yd8" class="bar" style="width: 100%"></span>
+                <span data-hf-id="hf-paxp" class="bar" style="width: 86%"></span>
+                <span data-hf-id="hf-758f" class="bar" style="width: 62%"></span>
+              </div>
+              <div data-hf-id="hf-p2k6" id="inputBox">
+                <div data-hf-id="hf-yhem" id="placeholder">Tell Claude what you need…</div>
+                <div data-hf-id="hf-mkbn" id="typed"><span data-hf-id="hf-geb1" id="typedChars"></span><span data-hf-id="hf-ngrb" id="caret"></span></div>
+                <div data-hf-id="hf-f8d2" id="chips"><span data-hf-id="hf-7t2s" class="chip">+</span><span data-hf-id="hf-9eaw" class="chip">/</span><span data-hf-id="hf-87p0" class="chip">Manual</span><span data-hf-id="hf-9jz7" class="chip right">Sonnet 5.5 · Medium effort</span></div>
+              </div>
+            </div>
+            <div data-hf-id="hf-fsrg" id="winSide">
+              <p data-hf-id="hf-7cye" class="sideLabel">Progress</p>
+              <div data-hf-id="hf-70xd" class="steps">
+                <div data-hf-id="hf-w0y1" class="step"><span data-hf-id="hf-9gry" class="dot"><span data-hf-id="hf-j9iq" class="dotFill">✓</span></span>Reading the data</div>
+                <div data-hf-id="hf-f6w0" class="step"><span data-hf-id="hf-zcc2" class="dot"><span data-hf-id="hf-8ek6" class="dotFill">✓</span></span>Analysing the results</div>
+                <div data-hf-id="hf-ef6r" class="step"><span data-hf-id="hf-zqn3" class="dot"><span data-hf-id="hf-8sv7" class="dotFill">✓</span></span>Writing the report</div>
+              </div>
+              <p data-hf-id="hf-bext" class="sideLabel">Output</p>
+              <div data-hf-id="hf-p83f" id="file"><span data-hf-id="hf-ghan" id="fileIcon"></span>report.docx</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 5 · programma -->
+      <section data-hf-id="hf-d9u4" id="s5" class="layer clip" data-start="20.2" data-duration="5.2" data-track-index="6">
+        <div data-hf-id="hf-x9ku" id="s5Left">
+          <p data-hf-id="hf-k1mq" class="kicker">What we'll cover</p>
+          <div data-hf-id="hf-6nij" id="counter"><div data-hf-id="hf-s42e" id="counterRoll"></div></div>
+          <p data-hf-id="hf-lp41" id="s5Sub">Eleven stops, one day.</p>
+        </div>
+        <div data-hf-id="hf-ht21" id="listMask"><div data-hf-id="hf-qz2w" id="listRoll"></div></div>
+      </section>
+
+      <!-- SCENE 6 · copertina -->
+      <section data-hf-id="hf-7voq" id="s6" class="layer clip" data-start="24.9" data-duration="5.1" data-track-index="7">
+        <div data-hf-id="hf-o2ri" id="s6Wrap">
+          <p data-hf-id="hf-9g2m" id="s6Date">October 2026</p>
+          <h1 data-hf-id="hf-zjv5" id="s6Title" class="serif">AI at<br data-hf-id="hf-x5px" />Work</h1>
+          <p data-hf-id="hf-9ja5" id="s6Sub" class="serif">AI training for Marketing</p>
+        </div>
+        <img data-hf-id="hf-o0lr" id="logo" src="assets/colombini-logo.png" alt="Colombini Group" />
+      </section>
+
+      <!-- chrome -->
+      <div data-hf-id="hf-7ziw" id="chrome" class="layer clip" data-start="0" data-duration="30" data-track-index="8">
+        <div data-hf-id="hf-fy7s" id="chromeTop"><span data-hf-id="hf-fmlq">AI at Work</span><span data-hf-id="hf-kpx4">October 2026</span></div>
+        <div data-hf-id="hf-o6ww" id="progress"><div data-hf-id="hf-to59" id="progressTrack"></div><div data-hf-id="hf-nj97" id="progressFill"></div></div>
+      </div>
+
+      <!-- audio -->
+      <audio data-hf-id="hf-8tjx" id="music" src="assets/audio/music_a.wav" data-start="0" data-duration="30" data-track-index="10" data-volume="0.85"></audio>
+      <audio data-hf-id="hf-1yr2" id="sfxWhoosh1" src="assets/audio/whoosh.mp3" data-start="0.15" data-duration="1.4" data-track-index="11" data-volume="0.45"></audio>
+      <audio data-hf-id="hf-eups" id="sfxPop1" src="assets/audio/pop.mp3" data-start="1.55" data-duration="0.58" data-track-index="12" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-09mp" id="sfxPop2" src="assets/audio/pop.mp3" data-start="2.65" data-duration="0.58" data-track-index="12" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-eiya" id="sfxHit" src="assets/audio/hit.mp3" data-start="4.75" data-duration="3.0" data-track-index="11" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-2qya" id="sfxWhoosh2" src="assets/audio/whoosh.mp3" data-start="8.6" data-duration="1.4" data-track-index="13" data-volume="0.55"></audio>
+      <audio data-hf-id="hf-1oje" id="sfxCard1" src="assets/audio/pop.mp3" data-start="9.55" data-duration="0.58" data-track-index="12" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-r894" id="sfxCard2" src="assets/audio/pop.mp3" data-start="9.85" data-duration="0.58" data-track-index="14" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-0ls4" id="sfxCard3" src="assets/audio/pop.mp3" data-start="10.15" data-duration="0.58" data-track-index="12" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-xmgq" id="sfxCard4" src="assets/audio/pop.mp3" data-start="10.45" data-duration="0.58" data-track-index="14" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-zg5g" id="sfxCard5" src="assets/audio/pop.mp3" data-start="10.75" data-duration="0.58" data-track-index="12" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-xfe5" id="sfxWhoosh3" src="assets/audio/whoosh.mp3" data-start="14.0" data-duration="1.4" data-track-index="13" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-wlh8" id="sfxTyping" src="assets/audio/typing.mp3" data-start="15.25" data-duration="1.55" data-track-index="11" data-volume="0.45"></audio>
+      <audio data-hf-id="hf-9epo" id="sfxSubmit" src="assets/audio/pop.mp3" data-start="16.95" data-duration="0.58" data-track-index="12" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-al2t" id="sfxStep1" src="assets/audio/pop.mp3" data-start="17.75" data-duration="0.58" data-track-index="14" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-szso" id="sfxStep2" src="assets/audio/pop.mp3" data-start="18.25" data-duration="0.58" data-track-index="12" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-ljx8" id="sfxStep3" src="assets/audio/pop.mp3" data-start="18.75" data-duration="0.58" data-track-index="14" data-volume="0.4"></audio>
+      <audio data-hf-id="hf-7sch" id="sfxFile" src="assets/audio/pop.mp3" data-start="19.3" data-duration="0.58" data-track-index="12" data-volume="0.55"></audio>
+      <audio data-hf-id="hf-jmf9" id="sfxWhoosh4" src="assets/audio/whoosh.mp3" data-start="19.95" data-duration="1.4" data-track-index="13" data-volume="0.45"></audio>
+      <audio data-hf-id="hf-d8w6" id="sfxWhoosh5" src="assets/audio/whoosh.mp3" data-start="24.75" data-duration="1.4" data-track-index="11" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-s47v" id="sfxSparkle" src="assets/audio/sparkle.mp3" data-start="26.7" data-duration="3.3" data-track-index="13" data-volume="0.45"></audio>
+    </div>
+
+    <script>
+      // ---------- static DOM build (deterministic) ----------
+      function ringPath(cx, cy, r) {
+        return `M ${cx - r} ${cy} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0 Z`;
+      }
+      document.querySelectorAll(".ring").forEach((ring) => {
+        ring.querySelector(".band").setAttribute("d", ringPath(612, 612, 612) + " " + ringPath(612, 612, 430));
+        ring.querySelector(".cres").setAttribute("d", ringPath(612, 612, 430) + " " + ringPath(660, 560, 300));
+      });
+
+      const typedText = "Prepare the campaign report";
+      const typedHost = document.getElementById("typedChars");
+      for (const c of typedText) {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = c;
+        typedHost.appendChild(s);
+      }
+
+      const sections = [
+        "The AI landscape", "The prompt", "ChatGPT, Claude and Gemini", "Inside Claude",
+        "Working well", "Skills and agents", "The ideal setup", "Automating the repetitive",
+        "Trust and first step", "An events office", "Leonardo AI",
+      ];
+      const roll = document.getElementById("counterRoll");
+      const list = document.getElementById("listRoll");
+      sections.forEach((t, i) => {
+        const num = String(i + 1).padStart(2, "0");
+        const d = document.createElement("div");
+        d.textContent = num;
+        roll.appendChild(d);
+        const it = document.createElement("div");
+        it.className = "item";
+        it.innerHTML = `<span class="n">${num}</span><span class="t">${t}</span>`;
+        list.appendChild(it);
+      });
+
+      // ---------- timeline ----------
+      const tl = gsap.timeline({ paused: true });
+      const IT = 96; // list item height
+      const LIST_CENTER = 390 - IT / 2; // centre of the 780px mask
+
+      // chrome + progress
+      tl.fromTo("#chromeTop", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 4.9);
+      tl.fromTo("#progress", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.4);
+      tl.fromTo("#progressFill", { scaleX: 0 }, { scaleX: 1, duration: 25, ease: "none" }, 0);
+      tl.to("#chromeTop", { color: "#75655c", duration: 0.3 }, 9.1);
+      tl.to("#progressTrack", { backgroundColor: "rgba(117,101,92,0.25)", duration: 0.3 }, 9.1);
+      tl.to("#progressFill", { backgroundColor: "#75655c", duration: 0.3 }, 9.1);
+      tl.to("#chromeTop", { color: "#cbc6bb", duration: 0.3 }, 14.4);
+      tl.to("#progressTrack", { backgroundColor: "rgba(203,198,187,0.25)", duration: 0.3 }, 14.4);
+      tl.to("#progressFill", { backgroundColor: "#cbc6bb", duration: 0.3 }, 14.4);
+      tl.to(["#chromeTop", "#progress"], { opacity: 0, duration: 0.6, ease: "power2.in" }, 25.0);
+
+      // ambient glow breathing
+      tl.fromTo("#glow", { scale: 0.9, opacity: 0.7 }, { scale: 1.08, opacity: 1, duration: 5, ease: "sine.inOut", yoyo: true, repeat: 5 }, 0);
+
+      // ---------- rings ----------
+      // S1: enter from off-frame, offset right and smaller
+      tl.fromTo("#ringTop", { x: 540, y: -760, rotation: -110, scale: 0.75 }, { y: 0, rotation: -20, duration: 1.5, ease: "expo.out" }, 0.15);
+      tl.fromTo("#ringBot", { x: 540, y: 760, rotation: 110, scale: 0.75 }, { y: 0, rotation: 20, duration: 1.5, ease: "expo.out" }, 0.25);
+      tl.to("#ringTop", { rotation: 10, duration: 2.7, ease: "sine.inOut" }, 1.65);
+      tl.to("#ringBot", { rotation: -10, duration: 2.6, ease: "sine.inOut" }, 1.75);
+      // S2: centre, open up
+      tl.to("#ringTop", { x: 0, y: -270, scale: 1, rotation: 60, duration: 1.1, ease: "power3.inOut" }, 4.4);
+      tl.to("#ringBot", { x: 0, y: 270, scale: 1, rotation: -60, duration: 1.1, ease: "power3.inOut" }, 4.4);
+      tl.to("#ringTop", { rotation: 80, duration: 3, ease: "none" }, 5.5);
+      tl.to("#ringBot", { rotation: -80, duration: 3, ease: "none" }, 5.5);
+      // exit before the paper wipe
+      tl.to("#ringTop", { y: -1150, rotation: 140, duration: 0.6, ease: "power3.in" }, 8.55);
+      tl.to("#ringBot", { y: 1150, rotation: -140, duration: 0.6, ease: "power3.in" }, 8.55);
+      // S6: close back onto the cover layout
+      tl.fromTo("#ringTop", { x: 0, y: -1150, scale: 1, rotation: -160 }, { y: 0, rotation: 0, duration: 1.6, ease: "expo.out", immediateRender: false }, 24.95);
+      tl.fromTo("#ringBot", { x: 0, y: 1150, scale: 1, rotation: 160 }, { y: 0, rotation: 0, duration: 1.6, ease: "expo.out", immediateRender: false }, 25.05);
+
+      // ---------- S1 ----------
+      tl.fromTo("#s1Lead", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.55);
+      tl.fromTo("#s1Big1", { opacity: 0, x: -70 }, { opacity: 1, x: 0, duration: 0.6, ease: "back.out(1.6)" }, 1.55);
+      tl.fromTo("#s1Big2", { opacity: 0, x: -70 }, { opacity: 1, x: 0, duration: 0.6, ease: "back.out(1.6)" }, 2.65);
+      tl.fromTo("#s1Big1 .s1Mark", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, 1.75);
+      tl.fromTo("#s1Big2 .s1Mark", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, 2.85);
+      tl.to("#s1 .wrap", { opacity: 0, y: -40, filter: "blur(8px)", duration: 0.45, ease: "power2.in" }, 4.3);
+
+      // ---------- S2 ----------
+      tl.fromTo("#s2Kicker", { opacity: 0, y: -24 }, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 5.0);
+      tl.fromTo("#s2w1", { yPercent: 110 }, { yPercent: 0, duration: 0.75, ease: "expo.out" }, 5.15);
+      tl.fromTo("#s2w2", { yPercent: 110 }, { yPercent: 0, duration: 0.75, ease: "expo.out" }, 5.55);
+      tl.fromTo("#s2Title", { scale: 0.96 }, { scale: 1.03, duration: 3.2, ease: "none" }, 5.15);
+      tl.to("#s2Title", { scale: 1.25, opacity: 0, duration: 0.5, ease: "power3.in" }, 8.55);
+      tl.to("#s2Kicker", { opacity: 0, duration: 0.3 }, 8.55);
+
+      // ---------- S3 ----------
+      tl.fromTo("#s3", { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power3.inOut" }, 8.9);
+      tl.fromTo("#s3Kicker", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 9.2);
+      tl.fromTo("#s3Title", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 9.25);
+      tl.fromTo("#cards .card", { opacity: 0, y: 90, rotation: 2 }, { opacity: 1, y: 0, rotation: 0, duration: 0.6, ease: "back.out(1.4)", stagger: 0.3 }, 9.5);
+      tl.fromTo("#cards .rule", { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: 0.5, ease: "power2.out", stagger: 0.3 }, 9.75);
+      tl.fromTo("#s3Line", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 11.9);
+      tl.to("#cards .card:not(#cardClaude)", { opacity: 0.35, duration: 0.5, ease: "power2.out" }, 13.2);
+      tl.to("#cardClaude", { y: -18, scale: 1.04, duration: 0.5, ease: "back.out(2)" }, 13.2);
+
+      // ---------- S4 ----------
+      // navy panel grows out of the Claude card
+      tl.fromTo(
+        "#s4Panel",
+        { clipPath: "inset(372px 1140px 288px 474px round 20px)" },
+        { clipPath: "inset(0px 0px 0px 0px round 0px)", duration: 0.7, ease: "expo.inOut" },
+        14.2
+      );
+      tl.fromTo("#s4Left .kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 14.8);
+      tl.fromTo("#s4Title", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 14.9);
+      tl.fromTo("#win", { y: 80, scale: 0.94 }, { y: 0, scale: 1, duration: 0.8, ease: "expo.out" }, 14.7);
+      tl.fromTo("#win", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 14.7);
+      // typing
+      tl.set("#placeholder", { opacity: 0 }, 15.25);
+      tl.set("#typedChars .ch", { display: "inline", stagger: 1.45 / typedText.length }, 15.25);
+      tl.fromTo("#caret", { opacity: 1 }, { opacity: 0, duration: 0.25, ease: "steps(1)", yoyo: true, repeat: 11 }, 15.25);
+      // submit
+      tl.to("#typed", { opacity: 0, y: -10, duration: 0.25, ease: "power2.in" }, 16.95);
+      tl.fromTo("#bubble", { opacity: 0, y: 180, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "expo.out" }, 16.95);
+      tl.set("#placeholder", { opacity: 1 }, 17.25);
+      tl.fromTo("#replyBars .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out", stagger: 0.18 }, 17.4);
+      // progress steps
+      tl.fromTo(".step", { opacity: 0.35 }, { opacity: 1, duration: 0.3, stagger: 0.5 }, 17.5);
+      tl.fromTo(".dotFill", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(2.5)", stagger: 0.5 }, 17.75);
+      tl.fromTo("#file", { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(2)" }, 19.3);
+      tl.fromTo(".li", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out", stagger: 0.5 }, 17.75);
+      tl.to("#s4Content", { opacity: 0, y: -60, duration: 0.45, ease: "power2.in" }, 20.05);
+
+      // ---------- S5 ----------
+      gsap.set("#listRoll", { y: LIST_CENTER });
+      tl.fromTo("#s5Left .kicker", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 20.45);
+      tl.fromTo("#counter", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 20.5);
+      tl.fromTo("#listMask", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 20.55);
+      const items = document.querySelectorAll("#listRoll .item");
+      gsap.set(items, { opacity: 0.4 });
+      tl.set(items[0], { opacity: 1 }, 20.55);
+      const STEP = 0.32;
+      for (let i = 1; i < sections.length; i++) {
+        const at = 20.95 + (i - 1) * STEP;
+        tl.to("#counterRoll", { y: -360 * i, duration: 0.24, ease: "power3.out" }, at);
+        tl.to("#listRoll", { y: LIST_CENTER - IT * i, duration: 0.24, ease: "power3.out" }, at);
+        tl.to(items[i - 1], { opacity: 0.4, duration: 0.2 }, at);
+        tl.to(items[i], { opacity: 1, duration: 0.2 }, at);
+      }
+      tl.fromTo("#s5Sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 24.1);
+      tl.fromTo("#counterRoll div:last-child", { scale: 1 }, { scale: 1.06, duration: 0.25, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "left center" }, 24.15);
+      tl.to(["#s5Left", "#listMask"], { opacity: 0, y: -40, duration: 0.45, ease: "power2.in" }, 24.85);
+
+      // ---------- S6 ----------
+      tl.fromTo("#s6Date", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 26.3);
+      tl.fromTo("#s6Title", { opacity: 0, y: 50, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "expo.out" }, 26.75);
+      tl.fromTo("#s6Sub", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 27.4);
+      tl.fromTo("#logo", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 27.9);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

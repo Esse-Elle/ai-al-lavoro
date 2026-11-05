@@ -25,7 +25,7 @@ TR_ALL=[
 EN_AUDIO={"02":151,"03":90,"04a":196,"07":117,"09":35,"11b":82,"12":73}            # tracce inglesi pronte: durata in secondi
 EN_VIDEO={"02":[["02",154]],"03":[["03",93]],"04":[["04a",199]],"07":[["07",120]],"09":[["09",38]],"11":[["11b",85]],"12":[["12",76]]}
 PARTIAL={"04":" Part 1 of 2: part 2 coming soon.","11":" Part 2 of 2: part 1 coming soon."}   # videolezioni inglesi pronte
-EN_SLIDES=list(range(16,21))   # slide gia' tradotte (slides_en/NNN.jpg)
+EN_SLIDES=list(range(1,113))   # slide gia' tradotte (slides_en/NNN.jpg)
 LEZ_EN=[("01","Introduction and overview","Why AI in marketing, how a generative AI thinks and the five tools."),
  ("02","The prompt","Role, context, task and format. Three tricks and a pipeline from trends to posts."),
  ("03","Three side by side","ChatGPT, Claude and Gemini: what they have in common and when to use which."),
@@ -112,7 +112,7 @@ T=[('<html lang="it">','<html lang="en">'),("<title>L'AI al lavoro · Podcast</t
  ('aria-label="Riproduci"','aria-label="Play"'),('aria-label="Avanti di 30 secondi"','aria-label="Forward 30 seconds"'),('aria-label="Traccia successiva"','aria-label="Next track"'),
  ('aria-label="Velocità di riproduzione"','aria-label="Playback speed"'),("Vai alle slide del capitolo","Go to the chapter slides"),
  ('<h2 id="h-deck">La presentazione</h2>','<h2 id="h-deck">The presentation</h2>'),
- ("Le 112 slide del corso. Usa le frecce, il cursore o i capitoli per muoverti.","The 112 slides of the course. Use the arrows, the slider or the chapters to move around."+("" if ALL_DONE else " Slides already translated are in English, the others are still in Italian.")),
+ ("Le 112 slide del corso. Usa le frecce, il cursore o i capitoli per muoverti.","The 112 slides of the course. Use the arrows, the slider or the chapters to move around."+("" if len(EN_SLIDES)>=112 else " Slides already translated are in English, the others are still in Italian.")),
  ('alt="Slide 1 di 112"','alt="Slide 1 of 112"'),
  ('aria-label="Slide precedente"','aria-label="Previous slide"',2),('aria-label="Slide successiva"','aria-label="Next slide"',2),
  (">Scorri le slide</label>",">Scroll through the slides</label>"),(">Schermo intero</button>",">Full screen</button>"),
@@ -140,10 +140,14 @@ for x in T:
     else: R(x[0],x[1])
 # download: finche' non c'e' il deck inglese completo, i file restano quelli italiani
 if not ALL_DONE:
-    R('<div class="dl" id="dlRow">','<p class="note">The downloadable PowerPoint, PDF and audio are still the Italian versions.</p>\n    <div class="dl" id="dlRow">')
-    R("Download the PowerPoint","Download the PowerPoint (IT)"); R("Download the PDF","Download the PDF (IT)"); R("Download all audio","Download all audio (IT)")
+    R('<div class="dl" id="dlRow">','<p class="note">The audio download is still the Italian version: the English one arrives on '+EN_DATE+'.</p>\n    <div class="dl" id="dlRow">')
+    R("Download all audio","Download all audio (IT)")
     R('"files/L-AI-al-lavoro_audio.zip","L\'AI al lavoro - audio.zip"','"files/L-AI-al-lavoro_audio.zip","L\'AI al lavoro - audio IT.zip"')
 
+# deck e intro inglesi
+R('const FILES = {pptx:["files/L-AI-al-lavoro_presentazione.pptx","L\'AI al lavoro - presentazione.pptx"], pdf:["files/L-AI-al-lavoro_presentazione.pdf","L\'AI al lavoro - presentazione.pdf"]};','const FILES = {pptx:["files/AI-at-Work_presentation.pptx","AI at Work - presentation.pptx"], pdf:["files/AI-at-Work_presentation.pdf","AI at Work - presentation.pdf"]};')
+R('hv.parentNode.style.backgroundImage="url(\'"+src("intro-poster.jpg")+"\')";','hv.parentNode.style.backgroundImage="url(\'"+src("intro_en-poster.jpg")+"\')";')
+R('hv.poster=src("intro-poster.jpg"); hv.src=src("intro.mp4");','hv.poster=src("intro_en-poster.jpg"); hv.src=src("intro_en.mp4");')
 # badge "Italian audio"
 if "in ascolto" in s: s=s.replace("in ascolto","now playing")
 R('b.querySelector(".vt").textContent=l.t;','b.querySelector(".vt").textContent=l.t; if(l.it){ const it=document.createElement("span"); it.className="itag"; it.textContent="IT audio · EN "+'+json.dumps(EN_DATE_SHORT)+'; b.querySelector(".vtx").appendChild(it); }')

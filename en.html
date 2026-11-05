@@ -266,7 +266,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   <section class="deck" id="presentazione" aria-labelledby="h-deck">
     <div class="sec-head">
       <h2 id="h-deck">The presentation</h2>
-      <p>The 112 slides of the course. Use the arrows, the slider or the chapters to move around. Slides already translated are in English, the others are still in Italian.</p>
+      <p>The 112 slides of the course. Use the arrows, the slider or the chapters to move around.</p>
     </div>
     <div class="viewer">
       <div class="stage">
@@ -284,10 +284,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       </div>
       <div class="chapters" id="chips"></div>
     </div>
-    <p class="note">The downloadable PowerPoint, PDF and audio are still the Italian versions.</p>
+    <p class="note">The audio download is still the Italian version: the English one arrives on 10 November.</p>
     <div class="dl" id="dlRow">
-      <button class="btn btn-solid" type="button" data-dl="pptx">Download the PowerPoint (IT)</button>
-      <button class="btn btn-line" type="button" data-dl="pdf" id="dlPdf">Download the PDF (IT)</button>
+      <button class="btn btn-solid" type="button" data-dl="pptx">Download the PowerPoint</button>
+      <button class="btn btn-line" type="button" data-dl="pdf" id="dlPdf">Download the PDF</button>
       <button class="btn btn-line" type="button" data-dl="all" id="dlAudio" hidden>Download all audio (IT)</button>
     </div>
     <p class="note" id="pptNote" hidden>The original PowerPoint can be downloaded from the version shared on OneDrive. Here you'll find the PDF with the same 112 slides.</p>
@@ -326,7 +326,7 @@ const TRACKS = [
 const DUR = [302, 151, 90, 196, 194, 296, 213, 214, 117, 290, 35, 234, 216, 82, 73];
 const SLIDES = 112;
 const CHAPTERS = [["Overview", 6], ["Prompt", 16], ["Comparison", 21], ["Inside Claude", 26], ["Working well", 42], ["Skills and agents", 53], ["Setup", 70], ["Automations", 75], ["Trust", 86], ["Events office", 90], ["Leonardo AI", 101]];
-const FILES = {pptx:["files/L-AI-al-lavoro_presentazione.pptx","L'AI al lavoro - presentazione.pptx"], pdf:["files/L-AI-al-lavoro_presentazione.pdf","L'AI al lavoro - presentazione.pdf"]};
+const FILES = {pptx:["files/AI-at-Work_presentation.pptx","AI at Work - presentation.pptx"], pdf:["files/AI-at-Work_presentation.pdf","AI at Work - presentation.pdf"]};
 
 /* risoluzione delle risorse: percorso relativo, oppure blob dal file unico */
 const blobCache = {};
@@ -412,8 +412,8 @@ paint(); $("tDur").textContent = fmt(DUR[cur]);
 
 /* video di apertura */
 const hv=$("heroVid"), snd=$("vidSound");
-hv.parentNode.style.backgroundImage="url('"+src("intro-poster.jpg")+"')";
-hv.poster=src("intro-poster.jpg"); hv.src=src("intro.mp4");
+hv.parentNode.style.backgroundImage="url('"+src("intro_en-poster.jpg")+"')";
+hv.poster=src("intro_en-poster.jpg"); hv.src=src("intro_en.mp4");
 const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 if(!reduce){ hv.play().catch(()=>{}); }
 snd.addEventListener("click",()=>{
@@ -428,7 +428,7 @@ audio.addEventListener("play",()=>{ if(!hv.muted){ hv.muted=true; snd.setAttribu
 
 /* presentazione */
 let slide = 1; const img=$("slideImg"), range=$("sRange");
-const pad = n => String(n).padStart(3,"0"); const SLEN=[16, 17, 18, 19, 20]; const SP = n => (SLEN.includes(n)?"slides_en/":"slides/")+pad(n)+".jpg";
+const pad = n => String(n).padStart(3,"0"); const SLEN=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112]; const SP = n => (SLEN.includes(n)?"slides_en/":"slides/")+pad(n)+".jpg";
 function show(n){
   slide = Math.min(SLIDES,Math.max(1,n));
   img.src = src(SP(slide)); img.alt = "Slide "+slide+" of "+SLIDES;
