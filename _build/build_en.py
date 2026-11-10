@@ -22,8 +22,8 @@ TR_ALL=[
  ("11a","Leonardo AI","Tools, image and video models, how to choose and how to write the prompt.",101),
  ("11b","Leonardo AI, part two","Costs, the pipeline from idea to video and what to watch out for.",109),
  ("12","Closing","Five takeaways and the first step to take by tomorrow.",88)]
-EN_AUDIO={"02":151,"03":90,"04a":196,"07":117,"09":35,"11b":82,"12":73}            # tracce inglesi pronte: durata in secondi
-EN_VIDEO={"02":[["02",154]],"03":[["03",93]],"04":[["04a",199]],"07":[["07",120]],"09":[["09",38]],"11":[["11b",85]],"12":[["12",76]]}
+EN_AUDIO={"01":273,"02":151,"03":90,"04a":196,"04b":174,"05":268,"06a":183,"06b":185,"07":117,"08":248,"09":35,"10":203,"11a":188,"11b":82,"12":73}            # tracce inglesi pronte: durata in secondi
+EN_VIDEO={"01":[["01",276]],"02":[["02",154]],"03":[["03",93]],"04":[["04a",199],["04b",177]],"05":[["05",271]],"06":[["06a",186],["06b",189]],"07":[["07",120]],"08":[["08",251]],"09":[["09",38]],"10":[["10",206]],"11":[["11a",192],["11b",85]],"12":[["12",76]]}
 PARTIAL={"04":" Part 1 of 2: part 2 coming soon.","11":" Part 2 of 2: part 1 coming soon."}   # videolezioni inglesi pronte
 EN_SLIDES=list(range(1,113))   # slide gia' tradotte (slides_en/NNN.jpg)
 LEZ_EN=[("01","Introduction and overview","Why AI in marketing, how a generative AI thinks and the five tools."),
@@ -143,6 +143,8 @@ if not ALL_DONE:
     R('<div class="dl" id="dlRow">','<p class="note">The audio download is still the Italian version: the English one arrives on '+EN_DATE+'.</p>\n    <div class="dl" id="dlRow">')
     R("Download all audio","Download all audio (IT)")
     R('"files/L-AI-al-lavoro_audio.zip","L\'AI al lavoro - audio.zip"','"files/L-AI-al-lavoro_audio.zip","L\'AI al lavoro - audio IT.zip"')
+else:
+    R('"files/L-AI-al-lavoro_audio.zip","L\'AI al lavoro - audio.zip"','"files/AI-at-Work_audio.zip","AI at Work - audio.zip"')
 
 # deck e intro inglesi
 R('const FILES = {pptx:["files/L-AI-al-lavoro_presentazione.pptx","L\'AI al lavoro - presentazione.pptx"], pdf:["files/L-AI-al-lavoro_presentazione.pdf","L\'AI al lavoro - presentazione.pdf"]};','const FILES = {pptx:["files/AI-at-Work_presentation.pptx","AI at Work - presentation.pptx"], pdf:["files/AI-at-Work_presentation.pdf","AI at Work - presentation.pdf"]};')

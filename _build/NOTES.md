@@ -58,3 +58,6 @@ HF ora 200 via proxy (usare --noproxy '' -x $HTTPS_PROXY oppure env no_proxy=loc
 19:50 s030 s039 s015 s009 s027 s038 EN OK (ren/job_b.py, others.py)
 20:05 s051 s062 s092 s107 EN OK (ren/patch.py job_c.py). Restano s033 s046 s093 s055 s078
 20:25 deck EN completo + intro EN pubblicati (slides_en 112, files/AI-at-Work_presentation.*, intro_en.mp4). Resta: audio EN 8 tracce dopo 9 nov; copia deck EN su Mac PODCAST/EN
+TTS EN 8 tracce generate 10/11 (extract2.py)
+Render 8 capitoli EN avviato (queue.sh 2 code)
+10/11 render 8 capitoli OK, sito aggiornato con tutto in inglese
